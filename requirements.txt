@@ -1,0 +1,6 @@
+numpy
+numpy-stl
+trimesh
+networkx
+scipy
+pymesh
