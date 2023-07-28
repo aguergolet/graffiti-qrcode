@@ -1,5 +1,9 @@
 import qrcode
 from PIL import Image, ImageDraw
+import math
+import subprocess
+import uuid
+import os
 
 class TLGCode:
     def __init__(self):
@@ -69,6 +73,67 @@ class TLGCode:
 
         return image
     
+
+    
+    def generate_stl(self):
+        qr_code_matrix = self.get_qr_code_matrix()
+        size = len(qr_code_matrix)
+        cube_size = int(math.ceil (200 / size))
+        full_size = cube_size * size;
+        main_cube = f"cube([{full_size},{full_size}, 3]);"
+        identification_areas = self.get_identification_areas(len(qr_code_matrix))
+        script = ""        
+        for i in range(size):
+            translate_x = int(i * cube_size);
+            for j in range(size):
+                factor = 0
+                is_white = not qr_code_matrix[i][j]
+                factor = 2
+                for area in identification_areas:
+                    x1, y1, x2, y2, color_debug = [i for i in area]
+                    if i >= x1 and i <= x2 and j >= y1 and j <= y2:
+                        factor = -1
+                if not is_white:
+                    translate_y = int(j * cube_size);
+                    script += f"\n\ttranslate([{translate_x+factor/2}, {translate_y+factor/2},-2])\n\t\tcube([{cube_size-factor},{cube_size-factor},6]);"
+
+        line_width = 0.8
+        bridge = "";
+        for area in identification_areas:
+            x1, y1, x2, y2, color_debug = [i * cube_size for i in area]
+            bridge += "\n"
+            bridge += f"\ttranslate([ {x1-1}, {y1-1},0])\n\trotate([0,0,45])\n\t\t"
+            bridge += f"cube([{cube_size*2}, {line_width},3]);\n"
+            bridge += f"\ttranslate([ {x2-1}, {y2-1},0])\n\trotate([0,0,45])\n\t\t"
+            bridge += f"cube([{cube_size*2}, {line_width},3]);\n"
+            bridge += f"\ttranslate([ {x1+cube_size+1}, {y2-1},0])\n\trotate([0,0,135])\n\t\t"
+            bridge += f"cube([{cube_size*2}, {line_width},3]);\n"
+            bridge += f"\ttranslate([ {x2+cube_size}, {y1-1},0])\n\trotate([0,0,135])\n\t\t"
+            bridge += f"cube([{cube_size*2}, {line_width},3]);\n"            
+            # draw.line((x1-1,y1-1,x1+pixel_size,y1+pixel_size), fill=color, width=line_width)  # Top bridge
+            # draw.line((x2-1,y2-1,x2+pixel_size,y2+pixel_size), fill=color, width=line_width)  # Top bridge
+            # draw.line((x1+pixel_size-1,y2-1,x1,y2+(pixel_size)+1), fill=color, width=line_width)  # Top bridge
+            # draw.line((x2-1,y1+pixel_size-1,x2+pixel_size,y1-1), fill=color, width=line_width)  # Top bridge
+
+        with open('tlgCode/template.scad', 'r') as f:
+            script = f.read().replace('__main_cube__',main_cube).replace('__holes__',script).replace('__bridges__', bridge)
+
+
+
+            
+            
+
+        script =  "{\n" + script + "\n}"
+        file_name = str(uuid.uuid4())
+        os.makedirs('tmp', exist_ok=True)
+        with open(f'tmp/{file_name}.scad', 'w') as source:
+            source.write(script)
+        
+        subprocess.run(['openscad', "-o", f'tmp/{file_name}.stl', f'tmp/{file_name}.scad'])
+        return file_name
+        
+        
+
     def get_identification_areas(self, size):
         """
         Get the coordinates of the identification areas in a QR Code matrix.
