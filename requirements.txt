@@ -1,6 +1,2 @@
-numpy
-numpy-stl
-trimesh
-networkx
-scipy
-pymesh
+qrcode
+cv2
