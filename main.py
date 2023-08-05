@@ -2,7 +2,7 @@ from tlgCode import tlgCode
 
 # Exemplo de uso da classe
 generator = tlgCode.TLGCode()
-url = "https://guergolet.art.br"
+url = "https://www.instagram.com/beco.do.robin/"
 generator.generate_qr_code(url)
 qr_code_matrix = generator.get_qr_code_matrix()
 
