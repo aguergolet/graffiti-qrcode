@@ -18,13 +18,11 @@ difference() {
 		cube([7,7,6]);
 	translate([25.0, 73.0,-2])
 		cube([4,4,6]);
-	translate([25.0, 79.0,-2])
-		cube([4,4,6]);
-	translate([25.0, 91.0,-2])
-		cube([4,4,6]);
-	translate([25.0, 103.0,-2])
+	translate([25.0, 85.0,-2])
 		cube([4,4,6]);
 	translate([25.0, 109.0,-2])
+		cube([4,4,6]);
+	translate([25.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([25.0, 127.0,-2])
 		cube([4,4,6]);
@@ -52,13 +50,7 @@ difference() {
 		cube([4,4,6]);
 	translate([31.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([31.0, 85.0,-2])
-		cube([4,4,6]);
 	translate([31.0, 91.0,-2])
-		cube([4,4,6]);
-	translate([31.0, 109.0,-2])
-		cube([4,4,6]);
-	translate([31.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([31.0, 127.0,-2])
 		cube([4,4,6]);
@@ -86,9 +78,15 @@ difference() {
 		cube([4,4,6]);
 	translate([37.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([37.0, 97.0,-2])
+	translate([37.0, 85.0,-2])
+		cube([4,4,6]);
+	translate([37.0, 91.0,-2])
 		cube([4,4,6]);
 	translate([37.0, 103.0,-2])
+		cube([4,4,6]);
+	translate([37.0, 109.0,-2])
+		cube([4,4,6]);
+	translate([37.0, 115.0,-2])
 		cube([4,4,6]);
 	translate([37.0, 145.0,-2])
 		cube([4,4,6]);
@@ -112,13 +110,11 @@ difference() {
 		cube([7,7,6]);
 	translate([41.5, 59.5,-2])
 		cube([7,7,6]);
+	translate([43.0, 79.0,-2])
+		cube([4,4,6]);
 	translate([43.0, 85.0,-2])
 		cube([4,4,6]);
-	translate([43.0, 103.0,-2])
-		cube([4,4,6]);
-	translate([43.0, 115.0,-2])
-		cube([4,4,6]);
-	translate([43.0, 121.0,-2])
+	translate([43.0, 109.0,-2])
 		cube([4,4,6]);
 	translate([43.0, 127.0,-2])
 		cube([4,4,6]);
@@ -150,8 +146,6 @@ difference() {
 		cube([4,4,6]);
 	translate([49.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([49.0, 91.0,-2])
-		cube([4,4,6]);
 	translate([49.0, 97.0,-2])
 		cube([4,4,6]);
 	translate([49.0, 103.0,-2])
@@ -182,7 +176,9 @@ difference() {
 		cube([7,7,6]);
 	translate([55.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([55.0, 91.0,-2])
+	translate([55.0, 103.0,-2])
+		cube([4,4,6]);
+	translate([55.0, 109.0,-2])
 		cube([4,4,6]);
 	translate([55.0, 121.0,-2])
 		cube([4,4,6]);
@@ -234,13 +230,11 @@ difference() {
 		cube([7,7,6]);
 	translate([59.5, 191.5,-2])
 		cube([7,7,6]);
-	translate([67.0, 79.0,-2])
-		cube([4,4,6]);
 	translate([67.0, 85.0,-2])
 		cube([4,4,6]);
-	translate([67.0, 103.0,-2])
+	translate([67.0, 109.0,-2])
 		cube([4,4,6]);
-	translate([67.0, 115.0,-2])
+	translate([67.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([67.0, 139.0,-2])
 		cube([4,4,6]);
@@ -258,11 +252,13 @@ difference() {
 		cube([4,4,6]);
 	translate([73.0, 73.0,-2])
 		cube([4,4,6]);
-	translate([73.0, 79.0,-2])
-		cube([4,4,6]);
 	translate([73.0, 85.0,-2])
 		cube([4,4,6]);
+	translate([73.0, 91.0,-2])
+		cube([4,4,6]);
 	translate([73.0, 97.0,-2])
+		cube([4,4,6]);
+	translate([73.0, 103.0,-2])
 		cube([4,4,6]);
 	translate([73.0, 109.0,-2])
 		cube([4,4,6]);
@@ -280,19 +276,15 @@ difference() {
 		cube([4,4,6]);
 	translate([73.0, 193.0,-2])
 		cube([4,4,6]);
-	translate([79.0, 25.0,-2])
+	translate([79.0, 31.0,-2])
 		cube([4,4,6]);
 	translate([79.0, 37.0,-2])
+		cube([4,4,6]);
+	translate([79.0, 49.0,-2])
 		cube([4,4,6]);
 	translate([79.0, 67.0,-2])
 		cube([4,4,6]);
 	translate([79.0, 73.0,-2])
-		cube([4,4,6]);
-	translate([79.0, 79.0,-2])
-		cube([4,4,6]);
-	translate([79.0, 97.0,-2])
-		cube([4,4,6]);
-	translate([79.0, 103.0,-2])
 		cube([4,4,6]);
 	translate([79.0, 109.0,-2])
 		cube([4,4,6]);
@@ -312,21 +304,21 @@ difference() {
 		cube([4,4,6]);
 	translate([79.0, 187.0,-2])
 		cube([4,4,6]);
-	translate([85.0, 25.0,-2])
-		cube([4,4,6]);
-	translate([85.0, 31.0,-2])
+	translate([85.0, 43.0,-2])
 		cube([4,4,6]);
 	translate([85.0, 49.0,-2])
 		cube([4,4,6]);
 	translate([85.0, 61.0,-2])
 		cube([4,4,6]);
-	translate([85.0, 73.0,-2])
+	translate([85.0, 67.0,-2])
+		cube([4,4,6]);
+	translate([85.0, 79.0,-2])
 		cube([4,4,6]);
 	translate([85.0, 85.0,-2])
 		cube([4,4,6]);
 	translate([85.0, 97.0,-2])
 		cube([4,4,6]);
-	translate([85.0, 103.0,-2])
+	translate([85.0, 109.0,-2])
 		cube([4,4,6]);
 	translate([85.0, 115.0,-2])
 		cube([4,4,6]);
@@ -342,13 +334,17 @@ difference() {
 		cube([4,4,6]);
 	translate([91.0, 31.0,-2])
 		cube([4,4,6]);
-	translate([91.0, 37.0,-2])
+	translate([91.0, 49.0,-2])
 		cube([4,4,6]);
-	translate([91.0, 67.0,-2])
+	translate([91.0, 55.0,-2])
 		cube([4,4,6]);
-	translate([91.0, 73.0,-2])
+	translate([91.0, 85.0,-2])
+		cube([4,4,6]);
+	translate([91.0, 109.0,-2])
 		cube([4,4,6]);
 	translate([91.0, 115.0,-2])
+		cube([4,4,6]);
+	translate([91.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([91.0, 127.0,-2])
 		cube([4,4,6]);
@@ -366,21 +362,29 @@ difference() {
 		cube([4,4,6]);
 	translate([97.0, 37.0,-2])
 		cube([4,4,6]);
-	translate([97.0, 49.0,-2])
+	translate([97.0, 43.0,-2])
 		cube([4,4,6]);
-	translate([97.0, 55.0,-2])
+	translate([97.0, 49.0,-2])
 		cube([4,4,6]);
 	translate([97.0, 61.0,-2])
 		cube([4,4,6]);
 	translate([97.0, 67.0,-2])
 		cube([4,4,6]);
+	translate([97.0, 73.0,-2])
+		cube([4,4,6]);
 	translate([97.0, 79.0,-2])
+		cube([4,4,6]);
+	translate([97.0, 85.0,-2])
+		cube([4,4,6]);
+	translate([97.0, 91.0,-2])
 		cube([4,4,6]);
 	translate([97.0, 97.0,-2])
 		cube([4,4,6]);
+	translate([97.0, 103.0,-2])
+		cube([4,4,6]);
 	translate([97.0, 109.0,-2])
 		cube([4,4,6]);
-	translate([97.0, 121.0,-2])
+	translate([97.0, 115.0,-2])
 		cube([4,4,6]);
 	translate([97.0, 133.0,-2])
 		cube([4,4,6]);
@@ -394,19 +398,23 @@ difference() {
 		cube([4,4,6]);
 	translate([97.0, 193.0,-2])
 		cube([4,4,6]);
+	translate([103.0, 25.0,-2])
+		cube([4,4,6]);
+	translate([103.0, 37.0,-2])
+		cube([4,4,6]);
+	translate([103.0, 43.0,-2])
+		cube([4,4,6]);
 	translate([103.0, 49.0,-2])
 		cube([4,4,6]);
 	translate([103.0, 55.0,-2])
 		cube([4,4,6]);
-	translate([103.0, 73.0,-2])
-		cube([4,4,6]);
 	translate([103.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([103.0, 97.0,-2])
-		cube([4,4,6]);
-	translate([103.0, 109.0,-2])
+	translate([103.0, 91.0,-2])
 		cube([4,4,6]);
 	translate([103.0, 115.0,-2])
+		cube([4,4,6]);
+	translate([103.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([103.0, 127.0,-2])
 		cube([4,4,6]);
@@ -424,13 +432,23 @@ difference() {
 		cube([4,4,6]);
 	translate([103.0, 193.0,-2])
 		cube([4,4,6]);
+	translate([109.0, 25.0,-2])
+		cube([4,4,6]);
+	translate([109.0, 31.0,-2])
+		cube([4,4,6]);
+	translate([109.0, 37.0,-2])
+		cube([4,4,6]);
+	translate([109.0, 43.0,-2])
+		cube([4,4,6]);
 	translate([109.0, 55.0,-2])
 		cube([4,4,6]);
 	translate([109.0, 61.0,-2])
 		cube([4,4,6]);
-	translate([109.0, 67.0,-2])
+	translate([109.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([109.0, 91.0,-2])
+	translate([109.0, 85.0,-2])
+		cube([4,4,6]);
+	translate([109.0, 97.0,-2])
 		cube([4,4,6]);
 	translate([109.0, 109.0,-2])
 		cube([4,4,6]);
@@ -446,17 +464,23 @@ difference() {
 		cube([4,4,6]);
 	translate([109.0, 193.0,-2])
 		cube([4,4,6]);
-	translate([115.0, 31.0,-2])
+	translate([115.0, 25.0,-2])
 		cube([4,4,6]);
 	translate([115.0, 37.0,-2])
 		cube([4,4,6]);
-	translate([115.0, 43.0,-2])
-		cube([4,4,6]);
 	translate([115.0, 55.0,-2])
+		cube([4,4,6]);
+	translate([115.0, 67.0,-2])
+		cube([4,4,6]);
+	translate([115.0, 85.0,-2])
 		cube([4,4,6]);
 	translate([115.0, 97.0,-2])
 		cube([4,4,6]);
-	translate([115.0, 115.0,-2])
+	translate([115.0, 103.0,-2])
+		cube([4,4,6]);
+	translate([115.0, 109.0,-2])
+		cube([4,4,6]);
+	translate([115.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([115.0, 139.0,-2])
 		cube([4,4,6]);
@@ -470,29 +494,17 @@ difference() {
 		cube([4,4,6]);
 	translate([115.0, 193.0,-2])
 		cube([4,4,6]);
-	translate([121.0, 25.0,-2])
-		cube([4,4,6]);
-	translate([121.0, 31.0,-2])
-		cube([4,4,6]);
-	translate([121.0, 37.0,-2])
-		cube([4,4,6]);
-	translate([121.0, 43.0,-2])
-		cube([4,4,6]);
 	translate([121.0, 49.0,-2])
-		cube([4,4,6]);
-	translate([121.0, 55.0,-2])
 		cube([4,4,6]);
 	translate([121.0, 61.0,-2])
 		cube([4,4,6]);
 	translate([121.0, 67.0,-2])
 		cube([4,4,6]);
-	translate([121.0, 79.0,-2])
-		cube([4,4,6]);
-	translate([121.0, 85.0,-2])
+	translate([121.0, 73.0,-2])
 		cube([4,4,6]);
 	translate([121.0, 91.0,-2])
 		cube([4,4,6]);
-	translate([121.0, 109.0,-2])
+	translate([121.0, 115.0,-2])
 		cube([4,4,6]);
 	translate([121.0, 175.0,-2])
 		cube([4,4,6]);
@@ -500,23 +512,11 @@ difference() {
 		cube([4,4,6]);
 	translate([127.0, 31.0,-2])
 		cube([4,4,6]);
-	translate([127.0, 37.0,-2])
-		cube([4,4,6]);
-	translate([127.0, 49.0,-2])
-		cube([4,4,6]);
-	translate([127.0, 55.0,-2])
-		cube([4,4,6]);
-	translate([127.0, 73.0,-2])
-		cube([4,4,6]);
-	translate([127.0, 79.0,-2])
-		cube([4,4,6]);
-	translate([127.0, 103.0,-2])
+	translate([127.0, 85.0,-2])
 		cube([4,4,6]);
 	translate([127.0, 115.0,-2])
 		cube([4,4,6]);
 	translate([127.0, 127.0,-2])
-		cube([4,4,6]);
-	translate([127.0, 133.0,-2])
 		cube([4,4,6]);
 	translate([127.0, 139.0,-2])
 		cube([4,4,6]);
@@ -536,6 +536,8 @@ difference() {
 		cube([4,4,6]);
 	translate([133.0, 37.0,-2])
 		cube([4,4,6]);
+	translate([133.0, 43.0,-2])
+		cube([4,4,6]);
 	translate([133.0, 49.0,-2])
 		cube([4,4,6]);
 	translate([133.0, 55.0,-2])
@@ -544,9 +546,15 @@ difference() {
 		cube([4,4,6]);
 	translate([133.0, 67.0,-2])
 		cube([4,4,6]);
+	translate([133.0, 73.0,-2])
+		cube([4,4,6]);
 	translate([133.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([133.0, 85.0,-2])
+	translate([133.0, 91.0,-2])
+		cube([4,4,6]);
+	translate([133.0, 103.0,-2])
+		cube([4,4,6]);
+	translate([133.0, 109.0,-2])
 		cube([4,4,6]);
 	translate([133.0, 115.0,-2])
 		cube([4,4,6]);
@@ -570,19 +578,17 @@ difference() {
 		cube([4,4,6]);
 	translate([139.0, 37.0,-2])
 		cube([4,4,6]);
-	translate([139.0, 49.0,-2])
-		cube([4,4,6]);
-	translate([139.0, 55.0,-2])
+	translate([139.0, 67.0,-2])
 		cube([4,4,6]);
 	translate([139.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([139.0, 85.0,-2])
+	translate([139.0, 97.0,-2])
 		cube([4,4,6]);
-	translate([139.0, 109.0,-2])
+	translate([139.0, 103.0,-2])
+		cube([4,4,6]);
+	translate([139.0, 115.0,-2])
 		cube([4,4,6]);
 	translate([139.0, 121.0,-2])
-		cube([4,4,6]);
-	translate([139.0, 133.0,-2])
 		cube([4,4,6]);
 	translate([139.0, 151.0,-2])
 		cube([4,4,6]);
@@ -600,13 +606,15 @@ difference() {
 		cube([4,4,6]);
 	translate([145.0, 31.0,-2])
 		cube([4,4,6]);
-	translate([145.0, 37.0,-2])
-		cube([4,4,6]);
 	translate([145.0, 43.0,-2])
+		cube([4,4,6]);
+	translate([145.0, 49.0,-2])
+		cube([4,4,6]);
+	translate([145.0, 55.0,-2])
 		cube([4,4,6]);
 	translate([145.0, 61.0,-2])
 		cube([4,4,6]);
-	translate([145.0, 73.0,-2])
+	translate([145.0, 67.0,-2])
 		cube([4,4,6]);
 	translate([145.0, 79.0,-2])
 		cube([4,4,6]);
@@ -617,10 +625,6 @@ difference() {
 	translate([145.0, 97.0,-2])
 		cube([4,4,6]);
 	translate([145.0, 103.0,-2])
-		cube([4,4,6]);
-	translate([145.0, 109.0,-2])
-		cube([4,4,6]);
-	translate([145.0, 115.0,-2])
 		cube([4,4,6]);
 	translate([145.0, 121.0,-2])
 		cube([4,4,6]);
@@ -648,13 +652,15 @@ difference() {
 		cube([4,4,6]);
 	translate([151.0, 79.0,-2])
 		cube([4,4,6]);
-	translate([151.0, 85.0,-2])
+	translate([151.0, 91.0,-2])
 		cube([4,4,6]);
-	translate([151.0, 109.0,-2])
+	translate([151.0, 97.0,-2])
+		cube([4,4,6]);
+	translate([151.0, 103.0,-2])
 		cube([4,4,6]);
 	translate([151.0, 115.0,-2])
 		cube([4,4,6]);
-	translate([151.0, 133.0,-2])
+	translate([151.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([149.5, 143.5,-2])
 		cube([7,7,6]);
@@ -680,11 +686,17 @@ difference() {
 		cube([4,4,6]);
 	translate([157.0, 79.0,-2])
 		cube([4,4,6]);
+	translate([157.0, 85.0,-2])
+		cube([4,4,6]);
+	translate([157.0, 91.0,-2])
+		cube([4,4,6]);
 	translate([157.0, 97.0,-2])
 		cube([4,4,6]);
-	translate([157.0, 109.0,-2])
+	translate([157.0, 103.0,-2])
 		cube([4,4,6]);
 	translate([157.0, 115.0,-2])
+		cube([4,4,6]);
+	translate([157.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([157.0, 127.0,-2])
 		cube([4,4,6]);
@@ -708,9 +720,9 @@ difference() {
 		cube([4,4,6]);
 	translate([163.0, 97.0,-2])
 		cube([4,4,6]);
-	translate([163.0, 109.0,-2])
+	translate([163.0, 103.0,-2])
 		cube([4,4,6]);
-	translate([163.0, 115.0,-2])
+	translate([163.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([163.0, 127.0,-2])
 		cube([4,4,6]);
@@ -720,6 +732,8 @@ difference() {
 		cube([7,7,6]);
 	translate([161.5, 167.5,-2])
 		cube([7,7,6]);
+	translate([163.0, 187.0,-2])
+		cube([4,4,6]);
 	translate([163.0, 193.0,-2])
 		cube([4,4,6]);
 	translate([167.5, 23.5,-2])
@@ -734,17 +748,7 @@ difference() {
 		cube([7,7,6]);
 	translate([169.0, 73.0,-2])
 		cube([4,4,6]);
-	translate([169.0, 79.0,-2])
-		cube([4,4,6]);
-	translate([169.0, 91.0,-2])
-		cube([4,4,6]);
-	translate([169.0, 97.0,-2])
-		cube([4,4,6]);
 	translate([169.0, 103.0,-2])
-		cube([4,4,6]);
-	translate([169.0, 109.0,-2])
-		cube([4,4,6]);
-	translate([169.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([169.0, 139.0,-2])
 		cube([4,4,6]);
@@ -760,7 +764,7 @@ difference() {
 		cube([7,7,6]);
 	translate([169.0, 175.0,-2])
 		cube([4,4,6]);
-	translate([169.0, 187.0,-2])
+	translate([169.0, 193.0,-2])
 		cube([4,4,6]);
 	translate([173.5, 23.5,-2])
 		cube([7,7,6]);
@@ -776,11 +780,13 @@ difference() {
 		cube([4,4,6]);
 	translate([175.0, 85.0,-2])
 		cube([4,4,6]);
-	translate([175.0, 91.0,-2])
-		cube([4,4,6]);
-	translate([175.0, 103.0,-2])
+	translate([175.0, 109.0,-2])
 		cube([4,4,6]);
 	translate([175.0, 115.0,-2])
+		cube([4,4,6]);
+	translate([175.0, 121.0,-2])
+		cube([4,4,6]);
+	translate([175.0, 127.0,-2])
 		cube([4,4,6]);
 	translate([175.0, 133.0,-2])
 		cube([4,4,6]);
@@ -802,17 +808,15 @@ difference() {
 		cube([7,7,6]);
 	translate([179.5, 59.5,-2])
 		cube([7,7,6]);
+	translate([181.0, 79.0,-2])
+		cube([4,4,6]);
 	translate([181.0, 85.0,-2])
 		cube([4,4,6]);
-	translate([181.0, 97.0,-2])
-		cube([4,4,6]);
-	translate([181.0, 109.0,-2])
+	translate([181.0, 91.0,-2])
 		cube([4,4,6]);
 	translate([181.0, 115.0,-2])
 		cube([4,4,6]);
-	translate([181.0, 127.0,-2])
-		cube([4,4,6]);
-	translate([181.0, 133.0,-2])
+	translate([181.0, 121.0,-2])
 		cube([4,4,6]);
 	translate([181.0, 139.0,-2])
 		cube([4,4,6]);
@@ -830,15 +834,9 @@ difference() {
 		cube([7,7,6]);
 	translate([185.5, 59.5,-2])
 		cube([7,7,6]);
-	translate([187.0, 79.0,-2])
+	translate([187.0, 109.0,-2])
 		cube([4,4,6]);
-	translate([187.0, 85.0,-2])
-		cube([4,4,6]);
-	translate([187.0, 91.0,-2])
-		cube([4,4,6]);
-	translate([187.0, 103.0,-2])
-		cube([4,4,6]);
-	translate([187.0, 115.0,-2])
+	translate([187.0, 133.0,-2])
 		cube([4,4,6]);
 	translate([187.0, 151.0,-2])
 		cube([4,4,6]);
@@ -869,8 +867,6 @@ difference() {
 	translate([193.0, 73.0,-2])
 		cube([4,4,6]);
 	translate([193.0, 91.0,-2])
-		cube([4,4,6]);
-	translate([193.0, 97.0,-2])
 		cube([4,4,6]);
 	translate([193.0, 139.0,-2])
 		cube([4,4,6]);
