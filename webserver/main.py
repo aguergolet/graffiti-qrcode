@@ -1,6 +1,5 @@
 import os
 import sys
-sys.path.append('../')
 from flask import Flask, redirect, url_for, session, render_template, request
 from tlgCode import tlgCode
 import hashlib

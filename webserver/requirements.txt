@@ -1,3 +1,7 @@
 Flask
 Authlib
 python-dotenv
+qrcode
+opencv-python
+Pillow
+requests
