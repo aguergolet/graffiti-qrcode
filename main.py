@@ -3,7 +3,7 @@ import time
 
 # Exemplo de uso da classe
 generator = tlgCode.TLGCode()
-url = "https://www.guergolet.art.br/?src=qrcode"
+url = "https://www.guergolet.art.br/?referer=qr"
 generator.generate_qr_code(url)
 qr_code_matrix = generator.get_qr_code_matrix()
 

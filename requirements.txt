@@ -1,2 +1,28 @@
-qrcode
-cv2
+version: '3.1'
+services:
+  qrcode:
+    image: tlgcode
+    restart: always
+    container_name: tlgcode
+    environment:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ghost.rule=Path(`/qrcode`)"
+      - "traefik.http.routers.ghost.entrypoints=web,websecure"  
+      - "traefik.http.routers.ghost.tls.domains[0].main=guergolet.com.br"
+      - "traefik.http.routers.ghost.tls.domains[0].sans=www.guergolet.com.br"
+      - "traefik.http.routers.ghost.tls.domains[1].main=guergolet.art"
+      - "traefik.http.routers.ghost.tls.domains[1].sans=www.guergolet.art"
+      - "traefik.http.routers.ghost.tls.domains[2].main=guergolet.art.br"
+      - "traefik.http.routers.ghost.tls.domains[2].sans=www.guergolet.art.br"
+      - "traefik.http.routers.ghost.tls.domains[3].main=guergolet.sampa.br"
+      - "traefik.http.routers.ghost.tls.domains[3].sans=www.guergolet.sampa.br"
+      - "traefik.http.routers.ghost.tls=true" 
+      - "traefik.http.routers.ghost.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ghost.loadbalancer.server.port=5000"
+    networks:
+      - devserver
+      
+networks:
+  devserver:
+    external: true
