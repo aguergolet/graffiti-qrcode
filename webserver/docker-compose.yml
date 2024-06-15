@@ -1,0 +1,30 @@
+version: '3.1'
+services:
+  qrcode:
+    image: qrcode:5-alpine
+    restart: always
+    container_name: qrcode_website
+    environment:
+      # see https://qrcode.org/docs/config/#configuration-options
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qrcode.rule=Path(`/qrcode`)  "
+      - "traefik.http.routers.qrcode.entrypoints=web,websecure"  
+      - "traefik.http.routers.qrcode.tls.domains[0].main=guergolet.com.br"
+      - "traefik.http.routers.qrcode.tls.domains[0].sans=www.guergolet.com.br"
+      - "traefik.http.routers.qrcode.tls.domains[1].main=guergolet.art"
+      - "traefik.http.routers.qrcode.tls.domains[1].sans=www.guergolet.art"
+      - "traefik.http.routers.qrcode.tls.domains[2].main=guergolet.art.br"
+      - "traefik.http.routers.qrcode.tls.domains[2].sans=www.guergolet.art.br"
+      - "traefik.http.routers.qrcode.tls.domains[3].main=guergolet.sampa.br"
+      - "traefik.http.routers.qrcode.tls.domains[3].sans=www.guergolet.sampa.br"
+      - "traefik.http.routers.qrcode.tls=true" 
+      - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
+      - "traefik.http.services.qrcode.loadbalancer.server.port=5000"
+    networks:
+      - devserver
+networks:
+  devserver:
+    external: true
