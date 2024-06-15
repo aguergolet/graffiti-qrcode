@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   qrcode:
-    image: qrcode:5-alpine
+    image: tlgcode
     restart: always
     container_name: qrcode_website
     environment:
