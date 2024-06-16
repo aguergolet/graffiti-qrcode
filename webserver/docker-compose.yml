@@ -1,30 +1,23 @@
 version: '3.1'
+
 services:
   qrcode:
     image: tlgcode
     restart: always
     container_name: qrcode_website
     environment:
-      # see https://qrcode.org/docs/config/#configuration-options
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qrcode.rule=HostRegexp(`.*qrcode.guergolet.+`)  "
-      - "traefik.http.routers.qrcode.entrypoints=web,websecure"  
-      - "traefik.http.routers.qrcode.tls.domains[0].main=qrcode.guergolet.com.br"
-      - "traefik.http.routers.qrcode.tls.domains[0].sans=qrcode.guergolet.com.br"
-      - "traefik.http.routers.qrcode.tls.domains[1].main=qrcode.guergolet.art"
-      - "traefik.http.routers.qrcode.tls.domains[1].sans=qrcode.guergolet.art"
-      - "traefik.http.routers.qrcode.tls.domains[2].main=qrcode.guergolet.art.br"
-      - "traefik.http.routers.qrcode.tls.domains[2].sans=qrcode.guergolet.art.br"
-      - "traefik.http.routers.qrcode.tls.domains[3].main=qrcode.guergolet.sampa.br"
-      - "traefik.http.routers.qrcode.tls.domains[3].sans=qrcode.guergolet.sampa.br"
-      - "traefik.http.routers.qrcode.tls=true" 
+      - "traefik.http.routers.qrcode.rule=HostRegexp(`{subdomain:.*}guergolet.{domain:com\\.br|art|art\\.br|sampa\\.br}`) && PathPrefix(`/qrcode`)"
+      - "traefik.http.routers.qrcode.entrypoints=web,websecure"
+      - "traefik.http.routers.qrcode.tls=true"
       - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
       - "traefik.http.services.qrcode.loadbalancer.server.port=5000"
     networks:
       - devserver
+
 networks:
   devserver:
     external: true
