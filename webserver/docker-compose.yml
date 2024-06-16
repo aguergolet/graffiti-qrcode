@@ -10,7 +10,7 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qrcode.rule=HostRegexp(`{subdomain:.*}guergolet.{domain:com\\.br|art|art\\.br|sampa\\.br}`) && PathPrefix(`/qrcode`)"
+      - "traefik.http.routers.qrcode.rule=HostRegexp(`{subdomain:.*}guergolet\\.(com\\.br|art|art\\.br|sampa\\.br)`) && PathPrefix(`/qrcode`)"
       - "traefik.http.routers.qrcode.entrypoints=web,websecure"
       - "traefik.http.routers.qrcode.tls=true"
       - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
