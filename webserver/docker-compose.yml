@@ -10,7 +10,7 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qrcode.rule=Path(`/qrcode`)  "
+      - "traefik.http.routers.qrcode.rule=PathPrefix(`/qrcode`)  "
       - "traefik.http.routers.qrcode.entrypoints=web,websecure"  
       - "traefik.http.routers.qrcode.tls.domains[0].main=guergolet.com.br"
       - "traefik.http.routers.qrcode.tls.domains[0].sans=www.guergolet.com.br"
