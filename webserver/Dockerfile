@@ -10,4 +10,5 @@ RUN pip3 install -r requirements.txt
 WORKDIR /app/templates
 COPY ./templates/* ./templates/
 WORKDIR /app
+EXPOSE 5000
 CMD ["python3", "main.py"]
