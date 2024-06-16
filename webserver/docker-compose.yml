@@ -14,6 +14,7 @@ services:
       - "traefik.http.routers.qrcode.entrypoints=web,websecure"
       - "traefik.http.routers.qrcode.tls=true"
       - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ghost.priority=10"
       - "traefik.http.services.qrcode.loadbalancer.server.port=5000"
     networks:
       - devserver
