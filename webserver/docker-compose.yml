@@ -10,11 +10,11 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qrcode.rule=HostRegexp(`{subdomain:.*}guergolet\\.(com\\.br|art|art\\.br|sampa\\.br)`) && PathPrefix(`/qrcode`)"
+      - "traefik.http.routers.qrcode.rule=Host('guergolet.com.br','www.guergolet.com.br', 'guergolet.art', 'www.guergolet.art','guergolet.art.br','guergolet.art.br','guergolet.sampa.br','www.guergolet.sampa.br') && PathPrefix(`/qrcode`)"
       - "traefik.http.routers.qrcode.entrypoints=web,websecure"
       - "traefik.http.routers.qrcode.tls=true"
       - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.ghost.priority=10"
+      - "traefik.http.routers.qrcode.priority=10"
       - "traefik.http.services.qrcode.loadbalancer.server.port=5000"
     networks:
       - devserver
