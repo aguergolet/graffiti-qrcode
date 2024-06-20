@@ -6,8 +6,10 @@ import hashlib
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 
-app = Flask(__name__, static_folder='./static', static_url_path='/content/')
 load_dotenv()
+
+base_path=os.getenv('BASE_PATH', '/qrcode')
+app = Flask(__name__, static_folder='./static', static_url_path=f'{base_path}/content/')
 app.secret_key = os.urandom(24)
 oauth = OAuth(app)
 
@@ -25,13 +27,13 @@ google = oauth.register(
 
 
 
-@app.route('/')
+@app.route(f'{base_path}/')
 def index():
     user_alias =  get_user_alias()
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error='', generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@app.post('/gerar-qr-code')
+@app.post(f'{base_path}/gerar-qr-code')
 def generate_qr():
     user_alias =  ""
     url = request.form['basic-url']
@@ -57,12 +59,12 @@ def generate_qr():
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@app.route('/login')
+@app.route(f'{base_path}/login')
 def login():
     redirect_uri = url_for('authorize', _external=True)
     return google.authorize_redirect(redirect_uri)
 
-@app.route('/login/callback')
+@app.route(f'{base_path}/login/callback')
 def authorize():
     token = google.authorize_access_token()
     if token is None:
@@ -70,7 +72,7 @@ def authorize():
     session['google_token'] = (token['access_token'], '')
     userinfo = google.get('userinfo')
     session['user_email'] = userinfo.json().get('email')
-    return index()
+    return redirect(url_for('index'))
 
 def is_authenticated():
     if 'user_email' in session:
@@ -87,7 +89,7 @@ def get_user_info():
 
 def get_user_files(directory):
     arquivos = []
-
+    os.makedirs(directory, exist_ok=True)
     # Listar todos os arquivos no diretório
     todos_arquivos = os.listdir(directory)
     
