@@ -1,6 +1,6 @@
 import os
 import sys
-from flask import Flask, redirect, url_for, session, render_template, request
+from flask import Flask, Blueprint, redirect, url_for, session, render_template, request
 from tlgCode import tlgCode
 import hashlib
 from dotenv import load_dotenv
@@ -8,14 +8,15 @@ from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
 
-base_path=os.getenv('APPLICATION_ROOT', '')
+base_path=os.getenv('APPLICATION_ROOT', '/')
 server_name = os.getenv('SERVER_NAME', '')
-app = Flask(__name__, static_folder='./static', static_url_path=f'/content/')
+app = Flask(__name__, static_folder='./static', static_url_path=f'/content/',)
 app.secret_key = os.urandom(24)
 if server_name != '': 
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:5000')
     app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
-  
+
+bp = Blueprint('bp', __name__, url_prefix=f'{base_path}')
 oauth = OAuth(app)
 
 
@@ -30,17 +31,17 @@ google = oauth.register(
     client_kwargs={'scope': 'email'}
 )
 
-@app.route(f'{base_path}/pudim')
+@bp.route(f'/pudim')
 def pudim():
-    return url_for('authorize', _external=True, _scheme=app.config['PREFERRED_URL_SCHEME'])
+    return url_for('bp.authorize', _external=True, _scheme=app.config['PREFERRED_URL_SCHEME'])
 
-@app.route(f'{base_path}/')
+@bp.route(f'/')
 def index():
     user_alias =  get_user_alias()
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error='', generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@app.post(f'{base_path}/gerar-qr-code')
+@bp.post(f'/gerar-qr-code')
 def generate_qr():
     user_alias =  ""
     url = request.form['basic-url']
@@ -66,12 +67,12 @@ def generate_qr():
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@app.route(f'{base_path}/login')
+@bp.route(f'/login')
 def login():
-    redirect_uri = url_for('authorize', _external=True,  _scheme=app.config['PREFERRED_URL_SCHEME'])
+    redirect_uri = url_for('bp.authorize', _external=True,  _scheme=app.config['PREFERRED_URL_SCHEME'])
     return google.authorize_redirect(redirect_uri)
 
-@app.route(f'{base_path}/login/callback')
+@bp.route(f'/login/callback')
 def authorize():
     token = google.authorize_access_token()
     if token is None:
@@ -79,7 +80,7 @@ def authorize():
     session['google_token'] = (token['access_token'], '')
     userinfo = google.get('userinfo')
     session['user_email'] = userinfo.json().get('email')
-    return redirect(url_for('index'))
+    return redirect(url_for('bp.index'))
 
 def is_authenticated():
     if 'user_email' in session:
@@ -131,4 +132,5 @@ def generate_file_name(url):
     return url
 
 if __name__ == '__main__':
+    app.register_blueprint(bp)
     app.run(debug=True, host="0.0.0.0", port=5000)
