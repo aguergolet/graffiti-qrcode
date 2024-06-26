@@ -10,6 +10,8 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
       FLASK_ENV: production
       SERVER_NAME: www.guergolet.com.br
+      APPLICATION_ROOT: /qrcode
+      PREFERRED_URL_SCHEME: https
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.qrcode.rule=Host(`guergolet.com.br`,`www.guergolet.com.br`, `guergolet.art`, `www.guergolet.art`, `guergolet.art.br`, `www.guergolet.art.br`, `guergolet.sampa.br`, `www.guergolet.sampa.br`) && PathPrefix(`/qrcode`)"
