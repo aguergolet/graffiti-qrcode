@@ -88,11 +88,11 @@ class TLGCode:
             for j in range(size):
                 factor = 0
                 is_white = not qr_code_matrix[i][j]
-                factor = 2
+                factor = 0.5
                 for area in identification_areas:
                     x1, y1, x2, y2, color_debug = [i for i in area]
                     if i >= x1 and i <= x2 and j >= y1 and j <= y2:
-                        factor = -1
+                        factor = 0
                 if not is_white:
                     translate_y = int(j * cube_size);
                     script += f"\n\ttranslate([{translate_x+factor/2}, {translate_y+factor/2},-2])\n\t\tcube([{cube_size-factor},{cube_size-factor},6]);"
@@ -110,10 +110,7 @@ class TLGCode:
             bridge += f"cube([{cube_size*2}, {line_width},3]);\n"
             bridge += f"\ttranslate([ {x2+cube_size}, {y1-1},0])\n\trotate([0,0,135])\n\t\t"
             bridge += f"cube([{cube_size*2}, {line_width},3]);\n"            
-            # draw.line((x1-1,y1-1,x1+pixel_size,y1+pixel_size), fill=color, width=line_width)  # Top bridge
-            # draw.line((x2-1,y2-1,x2+pixel_size,y2+pixel_size), fill=color, width=line_width)  # Top bridge
-            # draw.line((x1+pixel_size-1,y2-1,x1,y2+(pixel_size)+1), fill=color, width=line_width)  # Top bridge
-            # draw.line((x2-1,y1+pixel_size-1,x2+pixel_size,y1-1), fill=color, width=line_width)  # Top bridge
+ 
 
         with open('template.scad', 'r') as f:
             script = f.read().replace('__main_cube__',main_cube).replace('__holes__',script).replace('__bridges__', bridge)

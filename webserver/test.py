@@ -12,7 +12,7 @@ if qr_code_matrix is not None:
 
     qr_code_image = generator.generate_image()
     qr_code_image.save('qrcode.png')
-    generator.generate_stl()
+    generator.generate_stl('qrcode.stl')
 
 end_time = time.time()
 
