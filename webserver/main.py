@@ -8,14 +8,14 @@ from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
 
-base_path=os.getenv('BASE_PATH', '/qrcode')
-
+base_path=os.getenv('APPLICATION_ROOT', '/')
+server_name = os.getenv('SERVER_NAME', '')
 app = Flask(__name__, static_folder='./static', static_url_path=f'/content/')
 app.secret_key = os.urandom(24)
-app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1')
-app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
-app.config['APPLICATION_ROOT'] = os.getenv('BASE_PATH', '/')
-
+if server_name != '': 
+    app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:5000')
+    app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
+    app.config['APPLICATION_ROOT'] = base_path
 oauth = OAuth(app)
 
 
