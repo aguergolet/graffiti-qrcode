@@ -17,7 +17,7 @@
             <!-- Image and text -->
             <nav class="navbar navbar-light bg-light">
                 <a class="navbar-brand" href="?">
-                    <img src="content/logo_qr.png"
+                    <img src="{{ url_for('static', filename='logo_qr.png') }}"
                         width="30" height="30" class="d-inline-block align-top"
                         alt>
                     Gerador de QRCode
@@ -88,10 +88,11 @@
                         {% for arquivo in generated_files %}
                         <tr>
                             <td class=""col-md-10">
-                                <a href="content/user/{{ folder }}/{{ arquivo[0] }}"><img class="col-md-12" src="content/user/{{ folder }}/{{ arquivo[0] }}"></a>
+                                <a href="{{ url_for( 'static', filename='user/' + folder + '/' + arquivo[0] ) }}">
+                                    <img class="col-md-12" src="{{ url_for( 'static', filename='user/' + folder+ '/' + arquivo[0]) }}"></a>
                             </td>
                             <td class="center">
-                                <a href="content/user/{{ folder }}/{{ arquivo[1] }}" class="btn btn-info col-sm-12 center">{{ arquivo[1] }}</a>
+                                <a href="{{url_for( 'static', filename='/user/' + folder + '/' + arquivo[1]) }}" class="btn btn-info col-sm-12 center">{{ arquivo[1] }}</a>
                             </td>
                         </tr>
                         {% endfor %}                        
