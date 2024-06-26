@@ -32,7 +32,7 @@ google = oauth.register(
 
 @app.route(f'{base_path}/pudim')
 def pudim():
-    return url_for('authorize', _external=True)
+    return url_for('authorize', _external=True, _scheme=app.config['PREFERRED_URL_SCHEME'])
 
 @app.route(f'{base_path}/')
 def index():
@@ -68,7 +68,7 @@ def generate_qr():
 
 @app.route(f'{base_path}/login')
 def login():
-    redirect_uri = url_for('authorize', _external=True)
+    redirect_uri = url_for('authorize', _external=True,  _scheme=app.config['PREFERRED_URL_SCHEME'])
     return google.authorize_redirect(redirect_uri)
 
 @app.route(f'{base_path}/login/callback')
