@@ -10,7 +10,7 @@ load_dotenv()
 
 base_path=os.getenv('APPLICATION_ROOT', '/')
 server_name = os.getenv('SERVER_NAME', '')
-app = Flask(__name__, static_folder='./static', static_url_path=f'/content/',)
+app = Flask(__name__, static_folder='./static', static_url_path=f'{base_path}/content/',)
 app.secret_key = os.urandom(24)
 if server_name != '': 
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:5000')
