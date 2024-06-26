@@ -5,6 +5,8 @@ services:
     image: tlgcode
     restart: always
     container_name: qrcode_website
+    volumes:
+      - qr_user_volume:/app/static/user/
     environment:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
@@ -26,3 +28,5 @@ services:
 networks:
   devserver:
     external: true
+volumes:
+  qr_user_volume:

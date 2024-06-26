@@ -92,7 +92,7 @@
                                     <img class="col-md-12" src="{{ url_for( 'static', filename='user/' + folder+ '/' + arquivo[0]) }}"></a>
                             </td>
                             <td class="center">
-                                <a href="{{url_for( 'static', filename='/user/' + folder + '/' + arquivo[1]) }}" class="btn btn-info col-sm-12 center">{{ arquivo[1] }}</a>
+                                <a href="{{url_for( 'static', filename='user/' + folder + '/' + arquivo[1]) }}" class="btn btn-info col-sm-12 center">{{ arquivo[1] }}</a>
                             </td>
                         </tr>
                         {% endfor %}                        
