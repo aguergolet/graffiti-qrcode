@@ -26,7 +26,9 @@ google = oauth.register(
     client_kwargs={'scope': 'email'}
 )
 
-
+@app.route(f'{base_path}/pudim'):
+def pudim():
+    print(url_for('index'))
 
 @app.route(f'{base_path}/')
 def index():
