@@ -11,6 +11,7 @@ load_dotenv()
 base_path=os.getenv('BASE_PATH', '/qrcode')
 app = Flask(__name__, static_folder='./static', static_url_path=f'{base_path}/content/')
 app.secret_key = os.urandom(24)
+app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1')
 oauth = OAuth(app)
 
 

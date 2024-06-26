@@ -8,6 +8,8 @@ services:
     environment:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
+      FLASK_ENV: production
+      SERVER_NAME: www.guergolet.com.br
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.qrcode.rule=Host(`guergolet.com.br`,`www.guergolet.com.br`, `guergolet.art`, `www.guergolet.art`, `guergolet.art.br`, `www.guergolet.art.br`, `guergolet.sampa.br`, `www.guergolet.sampa.br`) && PathPrefix(`/qrcode`)"
