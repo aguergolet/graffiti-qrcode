@@ -8,14 +8,14 @@ from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
 
-base_path=os.getenv('APPLICATION_ROOT', '/')
+base_path=os.getenv('APPLICATION_ROOT', '')
 server_name = os.getenv('SERVER_NAME', '')
 app = Flask(__name__, static_folder='./static', static_url_path=f'/content/')
 app.secret_key = os.urandom(24)
 if server_name != '': 
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:5000')
     app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
-    app.config['APPLICATION_ROOT'] = base_path
+  
 oauth = OAuth(app)
 
 
@@ -30,17 +30,17 @@ google = oauth.register(
     client_kwargs={'scope': 'email'}
 )
 
-@app.route(f'/pudim')
+@app.route(f'{base_path}/pudim')
 def pudim():
     return url_for('authorize', _external=True)
 
-@app.route(f'/')
+@app.route(f'{base_path}/')
 def index():
     user_alias =  get_user_alias()
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error='', generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@app.post(f'/gerar-qr-code')
+@app.post(f'{base_path}/gerar-qr-code')
 def generate_qr():
     user_alias =  ""
     url = request.form['basic-url']
@@ -66,12 +66,12 @@ def generate_qr():
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@app.route(f'/login')
+@app.route(f'{base_path}/login')
 def login():
     redirect_uri = url_for('authorize', _external=True)
     return google.authorize_redirect(redirect_uri)
 
-@app.route(f'/login/callback')
+@app.route(f'{base_path}/login/callback')
 def authorize():
     token = google.authorize_access_token()
     if token is None:
