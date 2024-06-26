@@ -28,7 +28,7 @@ google = oauth.register(
 
 @app.route(f'{base_path}/pudim')
 def pudim():
-    return url_for('index')
+    return url_for('authorize', _external=True)
 
 @app.route(f'{base_path}/')
 def index():
