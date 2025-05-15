@@ -16,12 +16,12 @@ services:
       PREFERRED_URL_SCHEME: https
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qrcode.rule=Host(`guergolet.com.br`,`www.guergolet.com.br`, `guergolet.art`, `www.guergolet.art`, `guergolet.art.br`, `www.guergolet.art.br`, `guergolet.sampa.br`, `www.guergolet.sampa.br`) && PathPrefix(`/qrcode`)"
+      - "traefik.http.routers.qrcode.rule=HostRegExp(`www\\.guergolet\\..+`) && PathPrefix(`/qrcode`)"
       - "traefik.http.routers.qrcode.entrypoints=web,websecure"
       - "traefik.http.routers.qrcode.tls=true"
-      - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.qrcode.priority=10"
       - "traefik.http.services.qrcode.loadbalancer.server.port=5000"
+      - "traefik.http.routers.qrcode.middlewares=redirect-to-https@file"
+      - "traefik.http.routers.cdn.tls.certresolver=letsencrypt"
     networks:
       - devserver
 
