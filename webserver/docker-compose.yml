@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.qrcode.rule=HostRegExp(`www\\.guergolet\\..+`) && PathPrefix(`/qrcode`)"
       - "traefik.http.routers.qrcode.entrypoints=web,websecure"
       - "traefik.http.routers.qrcode.tls=true"
+      - "traefik.http.routers.qrcode.priority=0"
       - "traefik.http.services.qrcode.loadbalancer.server.port=5000"
       - "traefik.http.routers.qrcode.middlewares=redirect-to-https@file"
       - "traefik.http.routers.cdn.tls.certresolver=letsencrypt"
