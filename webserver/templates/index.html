@@ -32,7 +32,7 @@
                 <div class="col-md-3 align-right">
 
                     {% if user_logged_in %}
-                    <b>Bem-vindo, {% print(user_name) %}</b>
+                    <b>Bem-vindo, {{ user_name | e }}</b>
                     {% else %}
                     <a href="login" class="btn btn-primary float-right">Logar
                         com o Google!</a>
@@ -46,8 +46,7 @@
             <div class="row">
                 {% if user_logged_in %}
                 {% if error != '' %}
-                <div class="alert alert-danger col-md-12">{% print(error)
-                    %}</div>
+                <div class="alert alert-danger col-md-12">{{ error | e }}</div>
                 {% endif %}
                 <form action="{{ url_for( 'bp.generate_qr' ) }}" method="POST" class="row">
                     <label for="basic-url">Endereço do site para o
@@ -92,7 +91,7 @@
                                     <img class="col-md-12" src="{{ url_for( 'static', filename='user/' + folder+ '/' + arquivo[0]) }}"></a>
                             </td>
                             <td class="center">
-                                <a href="{{url_for( 'static', filename='user/' + folder + '/' + arquivo[1]) }}" class="btn btn-info col-sm-12 center">{{ arquivo[1] }}</a>
+                                <a href="{{url_for( 'static', filename='user/' + folder + '/' + arquivo[1] | e ) }}" class="btn btn-info col-sm-12 center">{{ arquivo[1] | e }}</a>
                             </td>
                         </tr>
                         {% endfor %}                        

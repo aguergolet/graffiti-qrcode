@@ -1,6 +1,9 @@
 import os
 import sys
 from flask import Flask, Blueprint, redirect, url_for, session, render_template, request
+from werkzeug.utils import secure_filename
+import re
+from urllib.parse import urlparse # Added import
 from tlgCode import tlgCode
 import hashlib
 from dotenv import load_dotenv
@@ -11,7 +14,22 @@ load_dotenv()
 base_path=os.getenv('APPLICATION_ROOT', '/')
 server_name = os.getenv('SERVER_NAME', '')
 app = Flask(__name__, static_folder='./static', static_url_path=f'{base_path}/content/',)
-app.secret_key = os.urandom(24)
+
+# Improved secret key management
+secret_key_env = os.getenv('SECRET_KEY')
+is_development_env = os.getenv('FLASK_ENV') == 'development'
+
+if not secret_key_env:
+    if is_development_env:
+        print("INFO: SECRET_KEY environment variable not set. Using a dynamically generated key for development.", file=sys.stderr)
+        app.secret_key = os.urandom(24)
+    else:
+        print("CRITICAL WARNING: SECRET_KEY environment variable not set. Using a temporary, insecure key. "
+              "THIS IS NOT SUITABLE FOR PRODUCTION. SET A STRONG SECRET_KEY ENVIRONMENT VARIABLE.", file=sys.stderr)
+        app.secret_key = os.urandom(24) # Fallback, but insecure for prod
+else:
+    app.secret_key = secret_key_env
+
 if server_name != '': 
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:5000')
     app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
@@ -43,29 +61,54 @@ def index():
 
 @bp.post(f'/gerar-qr-code')
 def generate_qr():
-    user_alias =  ""
+    user_alias =  "" # Initialize user_alias, it will be set later if needed
     url = request.form['basic-url']
     error = ''
-    if not url.startswith('http'):
-        error = f'Sua URL deve iniciar com http.\nVocê informou {url}'
+    
+    try:
+        parsed_url = urlparse(url)
+        if not parsed_url.scheme in ['http', 'https']:
+            error = f"URL inválida: O esquema deve ser 'http' ou 'https'. Você informou '{url}'"
+        elif not parsed_url.netloc:
+            error = f"URL inválida: Não foi possível identificar um domínio na URL. Você informou '{url}'"
+    except ValueError: # urlparse can raise ValueError for malformed URLs, though it often tries its best
+        error = f"URL mal formada: A URL fornecida não pôde ser processada. Você informou '{url}'"
+
+    if error:
+        # If there's an error, get user_alias for rendering the template correctly
+        user_alias = get_user_alias() 
+        # Note: generated_files might be empty or from a previous successful attempt if user_alias exists
+        # It's generally okay to show previous files even if current input has an error
+        generated_files_list = get_user_files(f'./static/user/{user_alias}/') if user_alias else []
+        return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=generated_files_list, folder=user_alias)
     else:
+        # No validation error, proceed with QR code generation
         user_alias = get_user_alias()
-        print(user_alias)
+        # Ensure user_alias is available; if not (e.g., not logged in, though UI should prevent this flow), set a default or handle error
+        if not user_alias:
+             # This case should ideally be handled by authentication checks earlier
+             # For now, setting a generic error if user_alias is somehow empty post-validation
+            error = "Erro de autenticação ou sessão. Por favor, tente logar novamente."
+            # Attempt to get user_alias again just in case, or set to a placeholder if truly anonymous is possible and desired
+            # However, the structure implies user_alias is tied to being logged in.
+            # Showing an error is safer.
+            return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=[], folder="")
+
+        print(user_alias) # For debugging
         filename = generate_file_name(url)
        
         os.makedirs(f'./static/user/{user_alias}', exist_ok=True)
-        # Exemplo de uso da classe
         generator = tlgCode.TLGCode()
         generator.generate_qr_code(url)
         qr_code_matrix = generator.get_qr_code_matrix()
 
         if qr_code_matrix is not None:
-
             qr_code_image = generator.generate_image()
             qr_code_image.save(f'./static/user/{user_alias}/{filename}.png')
             generator.generate_stl(f'./static/user/{user_alias}/{filename}')
-
-    return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
+        
+        # After successful generation, render template with updated files
+        return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error='', generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
 @bp.route(f'/login')
 def login():
@@ -123,14 +166,23 @@ def get_user_alias():
         return ""
 
 def generate_file_name(url):
-    url = url.replace(':', '_')
-    url = url.replace('/', '_')
-    url = url.replace('.', '_')
-    url = url.replace('?', '_')
-    url = url.replace('&', '_')
-    url = url.replace('=', '_')
-    return url
+    # Use secure_filename to handle common path traversal and sanitization
+    filename = secure_filename(url)
+    # Replace potentially problematic characters that secure_filename might allow
+    # This example allows alphanumeric, underscore, and a single dot for extensions.
+    filename = re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
+    # Prevent names that are just dots or start with dots.
+    if not filename or filename.startswith('.'):
+        # Prepend with an underscore if it's empty, just dots, or starts with a dot.
+        filename = "_" + filename 
+    # Ensure the filename is not overly long and does not consist only of underscores
+    if not filename.strip('_'):
+        filename = "default_filename" # Provide a default if it becomes empty after stripping underscores
+    return filename[:200] # Limit filename length as an additional precaution
 
 if __name__ == '__main__':
     app.register_blueprint(bp)
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    # Set debug mode based on FLASK_ENV environment variable
+    # Default to False (production mode) if FLASK_ENV is not 'development'
+    debug_mode = os.getenv('FLASK_ENV') == 'development'
+    app.run(debug=debug_mode, host="0.0.0.0", port=5000)
