@@ -110,19 +110,25 @@ class TLGCode:
             bridge += f"cube([{cube_size*2}, {line_width},3]);\n"
             bridge += f"\ttranslate([ {x2+cube_size}, {y1-1},0])\n\trotate([0,0,135])\n\t\t"
             bridge += f"cube([{cube_size*2}, {line_width},3]);\n"            
- 
+        
+        # Determine the absolute path to template.scad
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        template_path = os.path.join(script_dir, 'template.scad')
 
-        with open('template.scad', 'r') as f:
-            script = f.read().replace('__main_cube__',main_cube).replace('__holes__',script).replace('__bridges__', bridge)
-
-
-
+        with open(template_path, 'r') as f:
+            template_content = f.read()
+        
+        # 'script' variable (first argument to replace) contains the OpenSCAD commands for QR code holes.
+        # 'template_content' (result of f.read()) contains the content of template.scad.
+        # Replace placeholders in template_content with the generated parts.
+        processed_template = template_content.replace('__main_cube__', main_cube)
+        processed_template = processed_template.replace('__holes__', script) # Use the 'script' var with hole commands for __holes__
+        processed_template = processed_template.replace('__bridges__', bridge)
             
-            
-
-        script =  "{\n" + script + "\n}"
+        # Construct the final SCAD content using the processed template
+        final_scad_content = "{\n" + processed_template + "\n}"
         with open(f'{file_name}.scad', 'w') as source:
-            source.write(script)
+            source.write(final_scad_content)
         
         subprocess.run(['openscad', "-o", f'{file_name}.stl', f'{file_name}.scad'])
         return file_name

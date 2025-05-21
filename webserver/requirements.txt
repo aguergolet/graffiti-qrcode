@@ -1,7 +1,7 @@
-Flask
-Authlib
-python-dotenv
-qrcode
-opencv-python
-Pillow
-requests
+Flask==3.1.1
+Authlib==1.5.2
+python-dotenv==1.1.0
+qrcode==8.2
+opencv-python==4.11.0.86
+Pillow==11.2.1
+requests==2.32.3
