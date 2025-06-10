@@ -1,127 +1,689 @@
+<!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta name="google-site-verification" content="uFpblipoBG9DtYdTnO-eW0nbp_LjNonGHCUyFY9dqJw" />
-        <meta charset="utf-8">
-        <meta name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Gerador de QRCode para Stencil</title>
-        <link rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous">
+<head>
+    <meta name="google-site-verification" content="uFpblipoBG9DtYdTnO-eW0nbp_LjNonGHCUyFY9dqJw" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Gerador de QRCode para Stencil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #5855eb;
+            --secondary-color: #f8fafc;
+            --accent-color: #10b981;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
 
-    </head>
-    
-    <body>
-        <div class="container-fluid">
-            <!-- Image and text -->
-            <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand" href="?">
-                    <img src="{{ url_for('static', filename='logo_qr.png') }}"
-                        width="30" height="30" class="d-inline-block align-top"
-                        alt>
-                    Gerador de QRCode
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .welcome-text {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-info {
+            background: #0ea5e9;
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-info:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: none;
+            font-weight: 500;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            color: #dc2626;
+            border-left: 4px solid var(--error-color);
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            color: #d97706;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .input-group {
+            display: flex;
+            align-items: stretch;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .input-group-text {
+            background: var(--secondary-color);
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-color);
+            border-right: none;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .input-group .form-control {
+            border-left: none;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .generate-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .info-box h4 {
+            color: #0369a1;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .info-box ul {
+            color: #0c4a6e;
+            margin-left: 1.25rem;
+        }
+
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        .files-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .file-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .file-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .file-preview {
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .file-card:hover .file-preview img {
+            transform: scale(1.05);
+        }
+
+        .file-actions {
+            padding: 1.25rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 1rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .files-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-group-text {
+                border-right: 2px solid var(--border-color);
+                border-bottom: none;
+                border-radius: 12px 12px 0 0;
+            }
+
+            .input-group .form-control {
+                border-left: 2px solid var(--border-color);
+                border-top: none;
+                border-radius: 0 0 12px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="?">
+                <img src="{{ url_for('static', filename='logo_qr.png') }}" alt="QRCode Logo">
+                <span>Gerador de QRCode</span>
+            </a>
+            
+            <div class="navbar-nav">
+                <a href="https://www.guergolet.com.br/politica-de-privacidade" class="nav-link" target="_blank">
+                    <i class="fas fa-shield-alt"></i>
+                    Política de Privacidade
                 </a>
-                <div class="col-md-4">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a href="https://www.guergolet.com.br/politica-de-privacidade" class="nav-link" target="_new">Política de Privacidade</a>
-                    </li>
-                </ul>
-                </div>
-                <div class="col-md-3 align-right">
+            </div>
 
-                    {% if user_logged_in %}
-                    <b>Bem-vindo, {% print(user_name) %}</b>
-                    {% else %}
-                    <a href="login" class="btn btn-primary float-right">Logar
-                        com o Google!</a>
-
-                    {% endif %}
-                </div>
-            </nav>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="container">
-            <div class="row">
+            <div class="user-info">
                 {% if user_logged_in %}
-                {% if error != '' %}
-                <div class="alert alert-danger col-md-12">{% print(error)
-                    %}</div>
-                {% endif %}
-                <form action="{{ url_for( 'bp.generate_qr' ) }}" method="POST" class="row">
-                    <label for="basic-url">Endereço do site para o
-                        QRCode</label>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"
-                                id="basic-addon3">Coloque a URL</span>
-                        </div>
-                        <input type="text" class="form-control" id="basic-url"
-                            name="basic-url"
-                            aria-describedby="basic-addon3">
-
-                    </div>
-
-                    <button class="col-md-2 btn btn-primary"
-                        type="submit">Gerar</div>
-                    <div class="small row">A geraçao do arquivo demora
-                        aproximadamente de 2 a 3 minutos. NÃO FECHE OU ATUALIZE O BROWSER.</div>
-                    <div class="info row">
-                        Ao baixar o STL para impressão 3D, mantenha as proporções para não deixar retangular. 
-                        <br />
-                        O preenchimento é indiferente. Não colocar SUPORTE ou ADESÃO.
-                        <br />
-                        A adesão vai tapar o Stencil.
-                    </div>
-                </form>
-                <hr>
-                <div class="row">
-                    <div class="col-md-12">
-                    <h3>Lista dos arquivos gerados por você</h3>
-                </div>
-                    <table class="col-md-12 table-bordered table-striped">
-                        <tr>
-                            <th class="col-md-2">PNG</th>
-                            <th>STL</th>
-                        </tr>
-                        {% for arquivo in generated_files %}
-                        <tr>
-                            <td class=""col-md-10">
-                                <a href="{{ url_for( 'static', filename='user/' + folder + '/' + arquivo[0] ) }}">
-                                    <img class="col-md-12" src="{{ url_for( 'static', filename='user/' + folder+ '/' + arquivo[0]) }}"></a>
-                            </td>
-                            <td class="center">
-                                <a href="{{url_for( 'static', filename='user/' + folder + '/' + arquivo[1]) }}" class="btn btn-info col-sm-12 center">{{ arquivo[1] }}</a>
-                            </td>
-                        </tr>
-                        {% endfor %}                        
-                    </table>
-                </div>
+                    <span class="welcome-text">
+                        <i class="fas fa-user-circle"></i>
+                        Bem-vindo, {{ user_name }}
+                    </span>
                 {% else %}
-                <div class="col-md-3">&nbsp;</div>
-                <div class="col-md-6 text-center alert alert-warning">
-                    Para evitar robôs e excesso de acessos, obrigatoriamente é
-                    necessário logar-se na aplicação <br />
-                    <a href="login" class="btn btn-primary float-center">Logar
-                        com o Google!</a>
-                </div>
-
+                    <a href="login" class="btn btn-primary">
+                        <i class="fab fa-google"></i>
+                        Entrar com Google
+                    </a>
                 {% endif %}
             </div>
         </div>
+    </nav>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-    </body>
+    <div class="main-container">
+        <div class="hero-section">
+            <h1 class="hero-title">QRCode Stencil Generator</h1>
+            <p class="hero-subtitle">
+                Transforme qualquer URL em um stencil profissional para graffiti. 
+                Gere arquivos PNG para corte manual e STL para impressão 3D.
+            </p>
+        </div>
 
+        {% if user_logged_in %}
+            <div class="card">
+                {% if error != '' %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <div class="generate-section">
+                    <form action="{{ url_for('bp.generate_qr') }}" method="POST" id="qrForm">
+                        <div class="form-group">
+                            <label for="basic-url" class="form-label">
+                                <i class="fas fa-link"></i>
+                                Endereço do site para o QRCode
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-globe"></i>
+                                    URL
+                                </span>
+                                <input 
+                                    type="url" 
+                                    class="form-control" 
+                                    id="basic-url"
+                                    name="basic-url"
+                                    placeholder="https://exemplo.com"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" type="submit">
+                            <i class="fas fa-magic"></i>
+                            Gerar QRCode Stencil
+                        </button>
+
+                        <div class="info-box">
+                            <h4><i class="fas fa-info-circle"></i> Instruções Importantes</h4>
+                            <ul>
+                                <li><strong>Tempo de processamento:</strong> 2-3 minutos. Não feche ou atualize o navegador.</li>
+                                <li><strong>Impressão 3D:</strong> Mantenha as proporções originais do arquivo STL.</li>
+                                <li><strong>Configurações de impressão:</strong> Sem suporte ou adesão (pode obstruir o stencil).</li>
+                                <li><strong>Preenchimento:</strong> Qualquer densidade de preenchimento funciona.</li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="files-section">
+                <h2 class="section-title">
+                    <i class="fas fa-folder-open"></i>
+                    Seus Arquivos Gerados
+                </h2>
+
+                {% if generated_files %}
+                    <div class="files-grid">
+                        {% for arquivo in generated_files %}
+                            <div class="file-card">
+                                <div class="file-preview">
+                                    <a href="{{ url_for('static', filename='user/' + folder + '/' + arquivo[0]) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename='user/' + folder + '/' + arquivo[0]) }}" 
+                                             alt="QRCode Preview">
+                                    </a>
+                                </div>
+                                <div class="file-actions">
+                                    {% if arquivo[1] %}
+                                        <a href="{{ url_for('static', filename='user/' + folder + '/' + arquivo[1]) }}" 
+                                           class="btn btn-info">
+                                            <i class="fas fa-download"></i>
+                                            Baixar STL
+                                        </a>
+                                    {% else %}
+                                        <span class="btn" style="background: #e5e7eb; color: #6b7280; cursor: not-allowed;">
+                                            <i class="fas fa-clock"></i>
+                                            Processando STL...
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="card">
+                        <div class="empty-state">
+                            <i class="fas fa-qrcode"></i>
+                            <h3>Nenhum arquivo gerado ainda</h3>
+                            <p>Crie seu primeiro QRCode stencil usando o formulário acima.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+        {% else %}
+            <div class="card">
+                <div class="alert alert-warning">
+                    <div style="text-align: center;">
+                        <i class="fas fa-lock" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <h3 style="margin-bottom: 1rem;">Acesso Restrito</h3>
+                        <p style="margin-bottom: 1.5rem;">
+                            Para evitar uso excessivo por robôs, é necessário fazer login com sua conta Google.
+                        </p>
+                        <a href="login" class="btn btn-primary">
+                            <i class="fab fa-google"></i>
+                            Entrar com Google
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3>Gerando seu QRCode Stencil</h3>
+            <p>Isso pode levar de 2 a 3 minutos. Por favor, aguarde...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('qrForm');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const urlInput = document.getElementById('basic-url');
+                    const url = urlInput.value.trim();
+                    
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        e.preventDefault();
+                        alert('Por favor, insira uma URL válida que comece com http:// ou https://');
+                        return;
+                    }
+
+                    // Show loading overlay
+                    loadingOverlay.style.display = 'flex';
+                    
+                    // Disable form submission button
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando...';
+                });
+            }
+
+            // Hide loading overlay if page loads with it visible (in case of error)
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    if (loadingOverlay) {
+                        loadingOverlay.style.display = 'none';
+                    }
+                }, 1000);
+            });
+        });
+    </script>
+</body>
 </html>
