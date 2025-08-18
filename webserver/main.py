@@ -144,4 +144,4 @@ def generate_file_name(url):
 
 if __name__ == '__main__':
     app.register_blueprint(bp)
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=8000)
