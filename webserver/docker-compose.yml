@@ -19,11 +19,9 @@ services:
       - "traefik.http.routers.qrcode.tls=true"
       - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
       - "traefik.http.routers.qrcode.priority=10"
-      - "traefik.http.services.qrcode.loadbalancer.server.port=5000"
+      - "traefik.http.services.qrcode.loadbalancer.server.port=8000"
     networks:
       - default
-    ports:
-      - "8000:5000"
 
 networks:
   default:
