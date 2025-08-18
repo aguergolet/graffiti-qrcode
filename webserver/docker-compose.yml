@@ -21,11 +21,11 @@ services:
       - "traefik.http.routers.qrcode.priority=10"
       - "traefik.http.services.qrcode.loadbalancer.server.port=8000"
     networks:
-      - default
+      - devserver
 
 networks:
-  default:
-    driver: bridge
+  devserver:
+    external: true
 
 volumes:
   qr_user_volume:
