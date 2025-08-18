@@ -1,45 +1,229 @@
-# QRCode Stencil Generator
+# 🎨 Graffiti QRCode Generator
 
-This repository houses a Python script that generates QRCode stencils for graffiti use. The script is designed to run in a web server container and it outputs two main results:
+[![Deploy Status](https://github.com/your-username/graffiti-qrcode/workflows/Deploy%20to%20Production%20Server/badge.svg)](https://github.com/your-username/graffiti-qrcode/actions)
+[![Test Status](https://github.com/your-username/graffiti-qrcode/workflows/Test%20and%20Validate/badge.svg)](https://github.com/your-username/graffiti-qrcode/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-1. **PNG Image:** A black-and-white image of the QRCode, designed for printing and cutting with a utility knife. The image is engineered to maintain the integrity of the QRCode, ensuring it can be accurately scanned when painted.
+> Gerador moderno de QR Codes para criação de stencils de impressão 3D, com interface web responsiva e autenticação Google OAuth.
 
-2. **STL File:** A 3D model of the QRCode, suitable for 3D printing. The STL file can be loaded directly into a 3D slicer like Cura to be transformed into a 3D stencil.
+## ✨ Características
 
-The server will be available on my website at https://www.guergolet.art.br/qrcode-stencil.
+- 🎯 **Geração de QR Codes** para URLs personalizadas
+- 🖨️ **Exportação STL** otimizada para impressão 3D
+- 🔐 **Autenticação Google OAuth** para controle de acesso
+- 📱 **Interface responsiva** com design moderno
+- 🚀 **Deploy automatizado** via GitHub Actions
+- 🐳 **Containerização Docker** para fácil implantação
+- 📊 **Histórico de arquivos** gerados por usuário
+- 🎨 **Design glassmorphism** com gradientes modernos
 
-## How It Works
+## 🚀 Tecnologias
 
-The script uses a custom approach to turn a conventional QRCode into a stencil. The process is broken down into several steps:
+- **Backend**: Python Flask
+- **Frontend**: HTML5, CSS3, Bootstrap 5, JavaScript
+- **Containerização**: Docker & Docker Compose
+- **Autenticação**: Google OAuth 2.0
+- **Deploy**: GitHub Actions + SSH
+- **Servidor Web**: Traefik (reverse proxy)
+- **SSL**: Let's Encrypt (automático)
 
-1. Generate a QRCode from a supplied text.
-2. Process the QRCode image to transform it into a stencil, preserving features that allow the code to be correctly scanned.
-3. Save the stencil image as a PNG file.
-4. Convert the stencil image into a 3D model and save it as an STL file.
+## 📋 Pré-requisitos
 
-The server runs in a container and uses both Python and OpenSCAD to generate the stencils.
+- Python 3.9+
+- Docker & Docker Compose
+- Conta Google para OAuth
+- Servidor Linux com SSH habilitado
 
-Although this script has been specifically developed for creating QRCode stencils for graffiti, it can be adapted for other stencil applications. The approach used to create the stencil ensures the final QRCode will be scannable when applied, allowing for the effective incorporation of QRCodes into graffiti artworks.
+## 🛠️ Instalação Local
 
+### 1. Clone o repositório
+```bash
+git clone https://github.com/your-username/graffiti-qrcode.git
+cd graffiti-qrcode
+```
 
-## Code
+### 2. Configure as variáveis de ambiente
+```bash
+cd webserver
+cp .env.example .env
+# Edite o arquivo .env com suas credenciais
+```
 
-1. `__init__`: This is the constructor of the `TLGCode` class. It initializes the `qr_code` attribute to `None`.
+### 3. Execute com Docker
+```bash
+docker-compose up -d
+```
 
-2. `generate_qr_code`: This method accepts a URL as input and generates a QR code for that URL.
+### 4. Acesse a aplicação
+```
+http://localhost:8000
+```
 
-3. `get_qr_code_matrix`: This method returns the matrix of the generated QR code. The matrix is a list of lists representing the black and white areas of the QR code.
+## 🌐 Deploy em Produção
 
-4. `display_qr_code`: This method displays the generated QR code as an image.
+### Configuração Automática (Recomendado)
 
-5. `generate_image`: This method generates an image of the QR code, highlighting the identification areas (top-left, top-right, bottom-left, and bottom-right corners of the QR code).
+1. **Configure os Secrets do GitHub**:
+   - `SSH_PRIVATE_KEY`: Chave privada SSH para o servidor
+   - `SERVER_HOST`: IP/domínio do servidor
+   - `SERVER_USER`: Usuário do servidor
+   - `DEPLOY_PATH`: Caminho da aplicação no servidor
 
-6. `generate_stl`: This method generates an STL file (used for 3D printing) of the QR code. The STL file includes the QR code and the identification areas.
+2. **Deploy automático**:
+   - Push para `main` ou `master` = deploy automático
+   - Ou execute manualmente via GitHub Actions
 
-7. `get_identification_areas`: This method returns the coordinates of the identification areas in the QR code matrix.
+### Configuração Manual
 
-The `TLGCode` class uses the following external Python libraries: `qrcode`, `PIL` (for image processing), `math`, `subprocess`, `uuid`, and `os`.
+```bash
+# No servidor
+cd /home/user/graffiti-qrcode/webserver
+git pull origin main
+chmod +x build.sh
+./build.sh
+```
 
-For the `template.scad` file, I understand that it's a template used by the library to generate the base `.scad` file, which is then converted into an STL file for 3D printing. I'll incorporate this information into the documentation.
+## 🔧 Configuração
 
-Next, I will generate a basic structure for your documentation, including installation instructions, function descriptions, and usage examples based on my understanding of the code.
+### Variáveis de Ambiente
+
+```bash
+# Google OAuth
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+
+# Flask
+FLASK_ENV=production
+SERVER_NAME=your-domain.com
+APPLICATION_ROOT=/qrcode
+PREFERRED_URL_SCHEME=https
+```
+
+### Docker Compose
+
+O arquivo `docker-compose.yml` inclui:
+- Configuração Traefik para reverse proxy
+- Volume persistente para arquivos de usuário
+- Rede externa para integração com outros serviços
+- Labels para roteamento automático
+
+## 📱 Uso
+
+### 1. **Login**
+- Acesse a aplicação
+- Clique em "Entrar com Google"
+- Autorize o acesso
+
+### 2. **Gerar QR Code**
+- Cole a URL desejada no campo
+- Clique em "Gerar QR Code"
+- Aguarde 2-3 minutos para processamento
+
+### 3. **Download**
+- Visualize o QR Code gerado
+- Baixe o arquivo STL para impressão 3D
+- Siga as instruções de impressão
+
+## 🎯 Instruções de Impressão 3D
+
+- ✅ **Mantenha as proporções** para não deixar retangular
+- ✅ **Preenchimento indiferente**
+- ❌ **NÃO coloque SUPORTE**
+- ❌ **NÃO coloque ADESÃO** (vai tapar o stencil)
+
+## 🔍 Estrutura do Projeto
+
+```
+graffiti-qrcode/
+├── .github/                 # GitHub Actions workflows
+│   ├── workflows/
+│   │   ├── deploy.yml      # Deploy automático
+│   │   └── test.yml        # Testes e validação
+│   └── README.md           # Documentação do deploy
+├── webserver/              # Aplicação principal
+│   ├── main.py            # Servidor Flask
+│   ├── Dockerfile         # Container da aplicação
+│   ├── docker-compose.yml # Orquestração Docker
+│   ├── build.sh           # Script de build
+│   ├── requirements.txt   # Dependências Python
+│   ├── templates/         # Templates HTML
+│   ├── static/            # Arquivos estáticos
+│   └── tlgCode/           # Código de geração STL
+├── LICENSE                 # Licença MIT
+└── README.md              # Este arquivo
+```
+
+## 🧪 Testes
+
+### Execução Local
+```bash
+cd webserver
+python -m pytest
+```
+
+### Validação Automática
+- **Linting**: flake8, black
+- **Validação HTML**: html5validator
+- **Segurança**: Snyk Docker scan
+- **Build**: Teste de construção Docker
+
+## 🚀 CI/CD
+
+### GitHub Actions
+- **Test**: Executa em PRs e pushes
+- **Deploy**: Deploy automático para produção
+- **Validação**: Verificação de qualidade de código
+
+### Workflows
+1. **Test and Validate**: Validação de código
+2. **Deploy to Production**: Deploy automático
+
+## 📊 Monitoramento
+
+### Logs
+```bash
+# Container
+docker logs qrcode_website
+
+# Aplicação
+docker exec qrcode_website tail -f /app/logs/app.log
+```
+
+### Status
+```bash
+# Containers
+docker ps
+
+# Recursos
+docker stats qrcode_website
+```
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## 🙏 Agradecimentos
+
+- [Flask](https://flask.palletsprojects.com/) - Framework web Python
+- [Bootstrap](https://getbootstrap.com/) - Framework CSS
+- [Docker](https://www.docker.com/) - Containerização
+- [Traefik](https://traefik.io/) - Reverse proxy
+- [Google OAuth](https://developers.google.com/identity/protocols/oauth2) - Autenticação
+
+## 📞 Suporte
+
+- **Issues**: [GitHub Issues](https://github.com/your-username/graffiti-qrcode/issues)
+- **Documentação**: [Wiki](https://github.com/your-username/graffiti-qrcode/wiki)
+- **Email**: suporte@guergolet.com.br
+
+---
+
+⭐ **Se este projeto te ajudou, considere dar uma estrela!**
