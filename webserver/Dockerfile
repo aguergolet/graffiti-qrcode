@@ -5,12 +5,12 @@ COPY ./tlgCode/* ./
 WORKDIR /app
 COPY main.py .
 COPY requirements.txt .
-COPY template.scad .
+COPY ./tlgCode/template.scad .
 RUN pip3 install -r requirements.txt
 WORKDIR /app/templates
 COPY ./templates/* ./
 WORKDIR /app/static
 COPY ./static/* .
 WORKDIR /app
-EXPOSE 5000
+EXPOSE 8000
 CMD ["python3", "main.py"]
