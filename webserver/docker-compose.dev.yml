@@ -13,7 +13,6 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR:-}
       FLASK_ENV: development
       SERVER_NAME: localhost
-      APPLICATION_ROOT: /qrcode
       PREFERRED_URL_SCHEME: http
 
 networks:

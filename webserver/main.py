@@ -10,18 +10,17 @@ from asgiref.wsgi import WsgiToAsgi
 
 load_dotenv()
 
-base_path=os.getenv('APPLICATION_ROOT', '/qrcode')
 server_name = os.getenv('SERVER_NAME', 'localhost')
 
 # Debug info - removido para produção
-app = Flask(__name__, static_folder='./static', static_url_path=f'{base_path}/content/',)
+app = Flask(__name__, static_folder='./static', static_url_path='/content/')
 app.secret_key = os.urandom(24)
 if server_name != '' and server_name != 'localhost': 
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:8000')
     app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
 
 # Debug info - removido para produção
-bp = Blueprint('bp', __name__, url_prefix=f'{base_path}')
+bp = Blueprint('bp', __name__)
 oauth = OAuth(app)
 
 
@@ -36,7 +35,7 @@ google = oauth.register(
     client_kwargs={'scope': 'email'}
 )
 
-@bp.route(f'/pudim')
+@bp.route('/pudim')
 def pudim():
     return url_for('bp.authorize', _external=True, _scheme=app.config['PREFERRED_URL_SCHEME'])
 
@@ -50,13 +49,13 @@ def health_check():
         'timestamp': datetime.datetime.now().isoformat()
     }, 200
 
-@bp.route(f'/')
+@bp.route('/')
 def index():
     user_alias =  get_user_alias()
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error='', generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@bp.post(f'/gerar-qr-code')
+@bp.post('/gerar-qr-code')
 def generate_qr():
     user_alias =  ""
     url = request.form['basic-url']
@@ -82,12 +81,12 @@ def generate_qr():
 
     return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
 
-@bp.route(f'/login')
+@bp.route('/login')
 def login():
     redirect_uri = url_for('bp.authorize', _external=True,  _scheme=app.config['PREFERRED_URL_SCHEME'])
     return google.authorize_redirect(redirect_uri)
 
-@bp.route(f'/login/callback')
+@bp.route('/login/callback')
 def authorize():
     token = google.authorize_access_token()
     if token is None:

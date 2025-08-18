@@ -9,12 +9,11 @@ services:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR:-}
       FLASK_ENV: ${FLASK_ENV:-production}
-      SERVER_NAME: ${SERVER_NAME:-guergolet.com.br}
-      APPLICATION_ROOT: ${APPLICATION_ROOT:-/qrcode}
-      PREFERRED_URL_SCHEME: ${PREFERRED_URL_SCHEME:-http}
+      SERVER_NAME: ${SERVER_NAME:-qrcode.guergolet.com.br}
+      PREFERRED_URL_SCHEME: ${PREFERRED_URL_SCHEME:-https}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qrcode.rule=(Host(`guergolet.com.br`) || Host(`www.guergolet.com.br`) || Host(`www.guergolet.art`) || Host(`guergolet.art.br`) || Host(`guergolet.sampa.br`) ) && PathPrefix(`/qrcode`)"
+      - "traefik.http.routers.qrcode.rule=Host(`qrcode.guergolet.com.br`) || Host(`qrcode.guergolet.art.br`) || Host(`qrcode.guergolet.sampa.br`)"
       - "traefik.http.routers.qrcode.entrypoints=web,websecure"
       - "traefik.http.routers.qrcode.tls=true"
       - "traefik.http.routers.qrcode.tls.certresolver=letsencrypt"
