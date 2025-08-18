@@ -17,7 +17,7 @@ if server_name != '' and server_name != 'localhost':
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:8000')
     app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
 
-print(app.config['SERVER_NAME'], app.config['PREFERRED_URL_SCHEME'])
+# Debug info - removido para produção
 bp = Blueprint('bp', __name__, url_prefix=f'{base_path}')
 oauth = OAuth(app)
 
@@ -144,5 +144,8 @@ def generate_file_name(url):
     return url
 
 if __name__ == '__main__':
+    # Registrar o Blueprint após definir todas as rotas
     app.register_blueprint(bp)
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    # Usar configuração de ambiente para debug
+    debug_mode = os.getenv('FLASK_ENV') == 'development'
+    app.run(debug=debug_mode, host="0.0.0.0", port=8000)
