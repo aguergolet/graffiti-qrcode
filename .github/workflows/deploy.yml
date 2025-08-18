@@ -44,6 +44,8 @@ jobs:
         ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
           echo "📁 Navigating to deployment directory..."
           cd $DEPLOY_PATH
+
+          pwd
           
           echo "📥 Pulling latest changes from git..."
           git pull origin main
