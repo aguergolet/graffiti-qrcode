@@ -44,19 +44,39 @@ cd graffiti-qrcode
 
 ### 2. Configure as variáveis de ambiente
 ```bash
-cd webserver
-cp .env.example .env
-# Edite o arquivo .env com suas credenciais
+# Configure as variáveis de ambiente
+cp env.example .env
+# Edite o arquivo .env com suas credenciais do Google OAuth
+```
+
+### 3. Scripts disponíveis
+```bash
+# Deploy completo com Docker (recomendado para produção)
+./deploy.sh
+
+# Build rápido (apenas reconstrói e inicia)
+./build.sh
+
+# Desenvolvimento local sem Docker
+./dev.sh
 ```
 
 ### 3. Execute com Docker
 ```bash
-docker-compose up -d
+# Deploy completo (recomendado)
+./deploy.sh
+
+# Ou apenas build rápido
+./build.sh
+
+# Ou desenvolvimento local sem Docker
+./dev.sh
 ```
 
 ### 4. Acesse a aplicação
 ```
-http://localhost:8000
+http://localhost:8000 (com Docker)
+http://localhost:5000 (desenvolvimento local)
 ```
 
 ## 🌐 Deploy em Produção

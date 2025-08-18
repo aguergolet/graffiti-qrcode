@@ -43,8 +43,7 @@ jobs:
         # Connect to server and execute deployment commands
         ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
           echo "📁 Navigating to deployment directory..."
-          cd /root/graffiti-qrcode/
-          pwd
+          cd $DEPLOY_PATH
           
           echo "📥 Pulling latest changes from git..."
           git pull origin main
@@ -80,12 +79,26 @@ jobs:
           if docker ps --filter "name=qrcode_website" --filter "status=running" | grep -q qrcode_website; then
             echo "✅ Container is running successfully"
             
-            # Check if the application is responding (optional)
-            echo "🌐 Checking application health..."
+            # Check if the application is responding on the correct port
+            echo "🌐 Checking application response..."
             if curl -f -s -o /dev/null -w "%{http_code}" http://localhost:8000/health 2>/dev/null | grep -q "200"; then
-              echo "✅ Application is responding"
+              echo "✅ Application health endpoint is responding"
+            elif curl -f -s -o /dev/null -w "%{http_code}" http://localhost:8000/ 2>/dev/null | grep -q "200"; then
+              echo "✅ Application root endpoint is responding"
             else
-              echo "⚠️  Application health check failed (this might be normal if no health endpoint exists)"
+              echo "⚠️  Application health check failed - checking container logs"
+              echo "📋 Container logs (last 20 lines):"
+              docker logs --tail 20 qrcode_website
+              
+              # Try to check if the port is listening
+              echo "🔍 Checking if port 8000 is listening..."
+              if netstat -tlnp 2>/dev/null | grep -q ":8000"; then
+                echo "✅ Port 8000 is listening"
+              elif ss -tlnp 2>/dev/null | grep -q ":8000"; then
+                echo "✅ Port 8000 is listening (ss)"
+              else
+                echo "❌ Port 8000 is not listening"
+              fi
             fi
           else
             echo "❌ Container is not running properly"

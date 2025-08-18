@@ -1,5 +1,6 @@
 import os
 import sys
+import datetime
 from flask import Flask, Blueprint, redirect, url_for, session, render_template, request
 from tlgCode import tlgCode
 import hashlib
@@ -12,7 +13,7 @@ base_path=os.getenv('APPLICATION_ROOT', '/')
 server_name = os.getenv('SERVER_NAME', '')
 app = Flask(__name__, static_folder='./static', static_url_path=f'{base_path}/content/',)
 app.secret_key = os.urandom(24)
-if server_name != '': 
+if server_name != '' and server_name != 'localhost': 
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:8000')
     app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
 
@@ -34,6 +35,16 @@ google = oauth.register(
 @bp.route(f'/pudim')
 def pudim():
     return url_for('bp.authorize', _external=True, _scheme=app.config['PREFERRED_URL_SCHEME'])
+
+@app.route(f'/health')
+def health_check():
+    """Health check endpoint for monitoring and deployment verification"""
+    return {
+        'status': 'healthy',
+        'service': 'QR Code Generator',
+        'version': '1.0.0',
+        'timestamp': datetime.datetime.now().isoformat()
+    }, 200
 
 @bp.route(f'/')
 def index():
@@ -133,4 +144,4 @@ def generate_file_name(url):
 
 if __name__ == '__main__':
     app.register_blueprint(bp)
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
