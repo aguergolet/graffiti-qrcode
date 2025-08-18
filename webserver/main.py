@@ -17,6 +17,7 @@ if server_name != '' and server_name != 'localhost':
     app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', '127.0.0.1:8000')
     app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
 
+print(app.config['SERVER_NAME'], app.config['PREFERRED_URL_SCHEME'])
 bp = Blueprint('bp', __name__, url_prefix=f'{base_path}')
 oauth = OAuth(app)
 
