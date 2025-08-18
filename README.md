@@ -51,13 +51,16 @@ cp env.example .env
 
 ### 3. Scripts disponíveis
 ```bash
-# Deploy completo com Docker (recomendado para produção)
+# Deploy completo com Docker (produção - sem expor porta 8000)
 ./deploy.sh
 
 # Build rápido (apenas reconstrói e inicia)
 ./build.sh
 
-# Desenvolvimento local sem Docker
+# Desenvolvimento local com Docker (expõe porta 8000)
+./dev-docker.sh
+
+# Desenvolvimento local sem Docker (Python direto)
 ./dev.sh
 ```
 

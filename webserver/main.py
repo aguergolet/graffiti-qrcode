@@ -6,6 +6,7 @@ from tlgCode import tlgCode
 import hashlib
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
+from asgiref.wsgi import WsgiToAsgi
 
 load_dotenv()
 
@@ -148,7 +149,17 @@ def generate_file_name(url):
 # Registrar o Blueprint sempre, não apenas no __main__
 app.register_blueprint(bp)
 
+# Converter Flask app para ASGI
+asgi_app = WsgiToAsgi(app)
+
 if __name__ == '__main__':
     # Usar configuração de ambiente para debug
     debug_mode = os.getenv('FLASK_ENV') == 'development'
-    app.run(debug=debug_mode, host="0.0.0.0", port=8000)
+    import uvicorn
+    uvicorn.run(
+        "main:asgi_app",
+        host="0.0.0.0",
+        port=8000,
+        reload=debug_mode,
+        log_level="info"
+    )

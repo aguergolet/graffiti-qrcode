@@ -13,4 +13,4 @@ WORKDIR /app/static
 COPY ./static/* ./
 WORKDIR /app
 EXPOSE 8000
-CMD ["python3", "main.py"]
+CMD ["uvicorn", "main:asgi_app", "--host", "0.0.0.0", "--port", "8000"]

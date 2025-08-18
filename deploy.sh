@@ -28,7 +28,10 @@ echo "🔄 Parando containers existentes..."
 docker-compose down
 
 echo "🚀 Iniciando containers..."
+# Usar docker-compose.yml padrão (produção)
+cd webserver
 docker-compose up -d
+cd ..
 
 echo "⏳ Aguardando aplicação inicializar..."
 sleep 3

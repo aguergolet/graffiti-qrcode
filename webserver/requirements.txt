@@ -5,3 +5,5 @@ qrcode
 opencv-python
 Pillow
 requests
+uvicorn
+asgiref
