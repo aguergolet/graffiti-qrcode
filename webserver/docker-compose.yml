@@ -9,7 +9,7 @@ services:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR:-}
       FLASK_ENV: ${FLASK_ENV:-production}
-      SERVER_NAME: ${SERVER_NAME:-localhost}
+      SERVER_NAME: ${SERVER_NAME:-guergolet.com.br}
       APPLICATION_ROOT: ${APPLICATION_ROOT:-/qrcode}
       PREFERRED_URL_SCHEME: ${PREFERRED_URL_SCHEME:-https}
     labels:
