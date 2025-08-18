@@ -1,5 +1,3 @@
-version: '3.1'
-
 services:
   qrcode:
     image: tlgcode
@@ -8,12 +6,12 @@ services:
     volumes:
       - qr_user_volume:/app/static/user/
     environment:
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR}
-      FLASK_ENV: production
-      SERVER_NAME: www.guergolet.com.br
-      APPLICATION_ROOT: /qrcode
-      PREFERRED_URL_SCHEME: https
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID_QR:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET_QR:-}
+      FLASK_ENV: ${FLASK_ENV:-production}
+      SERVER_NAME: ${SERVER_NAME:-localhost}
+      APPLICATION_ROOT: ${APPLICATION_ROOT:-/qrcode}
+      PREFERRED_URL_SCHEME: ${PREFERRED_URL_SCHEME:-http}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.qrcode.rule=(Host(`guergolet.com.br`) || Host(`www.guergolet.com.br`) || Host(`www.guergolet.art`) || Host(`guergolet.art.br`) || Host(`guergolet.sampa.br`) ) && PathPrefix(`/qrcode`)"
@@ -23,10 +21,13 @@ services:
       - "traefik.http.routers.qrcode.priority=10"
       - "traefik.http.services.qrcode.loadbalancer.server.port=8000"
     networks:
-      - devserver
+      - default
+    ports:
+      - "8000:5000"
 
 networks:
-  devserver:
-    external: true
+  default:
+    driver: bridge
+
 volumes:
   qr_user_volume:
