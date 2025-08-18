@@ -11,7 +11,7 @@ services:
       FLASK_ENV: ${FLASK_ENV:-production}
       SERVER_NAME: ${SERVER_NAME:-guergolet.com.br}
       APPLICATION_ROOT: ${APPLICATION_ROOT:-/qrcode}
-      PREFERRED_URL_SCHEME: ${PREFERRED_URL_SCHEME:-https}
+      PREFERRED_URL_SCHEME: ${PREFERRED_URL_SCHEME:-http}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.qrcode.rule=(Host(`guergolet.com.br`) || Host(`www.guergolet.com.br`) || Host(`www.guergolet.art`) || Host(`guergolet.art.br`) || Host(`guergolet.sampa.br`) ) && PathPrefix(`/qrcode`)"

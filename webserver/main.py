@@ -9,8 +9,10 @@ from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
 
-base_path=os.getenv('APPLICATION_ROOT', '/')
-server_name = os.getenv('SERVER_NAME', '')
+base_path=os.getenv('APPLICATION_ROOT', '/qrcode')
+server_name = os.getenv('SERVER_NAME', 'localhost')
+
+# Debug info - removido para produção
 app = Flask(__name__, static_folder='./static', static_url_path=f'{base_path}/content/',)
 app.secret_key = os.urandom(24)
 if server_name != '' and server_name != 'localhost': 
@@ -143,9 +145,10 @@ def generate_file_name(url):
     url = url.replace('=', '_')
     return url
 
+# Registrar o Blueprint sempre, não apenas no __main__
+app.register_blueprint(bp)
+
 if __name__ == '__main__':
-    # Registrar o Blueprint após definir todas as rotas
-    app.register_blueprint(bp)
     # Usar configuração de ambiente para debug
     debug_mode = os.getenv('FLASK_ENV') == 'development'
     app.run(debug=debug_mode, host="0.0.0.0", port=8000)

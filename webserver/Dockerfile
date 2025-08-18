@@ -5,6 +5,7 @@ COPY ./tlgCode/* ./
 WORKDIR /app
 COPY main.py .
 COPY requirements.txt .
+COPY .env .
 COPY ./tlgCode/template.scad .
 RUN pip3 install -r requirements.txt
 WORKDIR /app/templates
