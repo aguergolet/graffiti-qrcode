@@ -53,20 +53,23 @@ def health_check():
 def index():
     user_alias =  get_user_alias()
 
-    return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error='', generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
+    return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error='', generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias, shape=tlgCode.SQUARE)
 
 @bp.post('/gerar-qr-code')
 def generate_qr():
     user_alias =  ""
     url = request.form['basic-url']
+    shape = request.form.get('module-shape', tlgCode.SQUARE)
+    if shape not in tlgCode.SHAPES:
+        shape = tlgCode.SQUARE
     error = ''
     if not url.startswith('http'):
         error = f'Sua URL deve iniciar com http.\nVocê informou {url}'
     else:
         user_alias = get_user_alias()
         print(user_alias)
-        filename = generate_file_name(url)
-       
+        filename = generate_file_name(url, shape)
+
         os.makedirs(f'./static/user/{user_alias}', exist_ok=True)
         # Exemplo de uso da classe
         generator = tlgCode.TLGCode()
@@ -75,11 +78,11 @@ def generate_qr():
 
         if qr_code_matrix is not None:
 
-            qr_code_image = generator.generate_image()
+            qr_code_image = generator.generate_image(shape)
             qr_code_image.save(f'./static/user/{user_alias}/{filename}.png')
-            generator.generate_stl(f'./static/user/{user_alias}/{filename}')
+            generator.generate_stl(f'./static/user/{user_alias}/{filename}', shape)
 
-    return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias)
+    return render_template('index.html', user_logged_in=is_authenticated(), user_name=get_user_info(), error=error, generated_files=get_user_files(f'./static/user/{user_alias}/'), folder=user_alias, shape=shape)
 
 @bp.route('/login')
 def login():
@@ -136,14 +139,16 @@ def get_user_alias():
     else: 
         return ""
 
-def generate_file_name(url):
+def generate_file_name(url, shape=tlgCode.SQUARE):
     url = url.replace(':', '_')
     url = url.replace('/', '_')
     url = url.replace('.', '_')
     url = url.replace('?', '_')
     url = url.replace('&', '_')
     url = url.replace('=', '_')
-    return url
+    # Sufixo do formato para que os dois modelos da mesma URL não se sobreponham
+    sufixo = 'circulo' if shape == tlgCode.CIRCLE else 'quadrado'
+    return f'{url}_{sufixo}'
 
 # Registrar o Blueprint sempre, não apenas no __main__
 app.register_blueprint(bp)

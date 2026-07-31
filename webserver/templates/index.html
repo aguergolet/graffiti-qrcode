@@ -286,6 +286,73 @@
             border-radius: 0 12px 12px 0;
         }
 
+        .shape-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .shape-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .shape-option input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .shape-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .shape-option label:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .shape-option input:checked + label {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .shape-option input:focus-visible + label {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+
+        .shape-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 14px);
+            gap: 3px;
+        }
+
+        .shape-preview span {
+            width: 14px;
+            height: 14px;
+            background: var(--text-primary);
+        }
+
+        .shape-preview span.off {
+            background: transparent;
+        }
+
+        .shape-preview.circle span {
+            border-radius: 50%;
+        }
+
         .generate-section {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border-radius: 16px;
@@ -559,6 +626,49 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-shapes"></i>
+                                Formato dos módulos
+                            </label>
+                            <div class="shape-options">
+                                <div class="shape-option">
+                                    <input
+                                        type="radio"
+                                        id="shape-square"
+                                        name="module-shape"
+                                        value="square"
+                                        {% if shape != 'circle' %}checked{% endif %}
+                                    >
+                                    <label for="shape-square">
+                                        <span class="shape-preview" aria-hidden="true">
+                                            <span></span><span></span><span></span>
+                                            <span></span><span class="off"></span><span></span>
+                                            <span></span><span></span><span></span>
+                                        </span>
+                                        Quadrados
+                                    </label>
+                                </div>
+                                <div class="shape-option">
+                                    <input
+                                        type="radio"
+                                        id="shape-circle"
+                                        name="module-shape"
+                                        value="circle"
+                                        {% if shape == 'circle' %}checked{% endif %}
+                                    >
+                                    <label for="shape-circle">
+                                        <span class="shape-preview circle" aria-hidden="true">
+                                            <span></span><span></span><span></span>
+                                            <span></span><span class="off"></span><span></span>
+                                            <span></span><span></span><span></span>
+                                        </span>
+                                        Círculos
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         <button class="btn btn-success" type="submit">
                             <i class="fas fa-magic"></i>
                             Gerar QRCode Stencil
@@ -571,6 +681,7 @@
                                 <li><strong>Impressão 3D:</strong> Mantenha as proporções originais do arquivo STL.</li>
                                 <li><strong>Configurações de impressão:</strong> Sem suporte ou adesão (pode obstruir o stencil).</li>
                                 <li><strong>Preenchimento:</strong> Qualquer densidade de preenchimento funciona.</li>
+                                <li><strong>Formato dos módulos:</strong> Círculos deixam o stencil mais resistente; os marcadores de posição continuam quadrados para garantir a leitura.</li>
                             </ul>
                         </div>
                     </form>

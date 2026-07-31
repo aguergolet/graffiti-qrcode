@@ -9,6 +9,7 @@
 ## ✨ Características
 
 - 🎯 **Geração de QR Codes** para URLs personalizadas
+- ⚪ **Módulos quadrados ou circulares** à escolha
 - 🖨️ **Exportação STL** otimizada para impressão 3D
 - 🔐 **Autenticação Google OAuth** para controle de acesso
 - 📱 **Interface responsiva** com design moderno
@@ -139,8 +140,14 @@ O arquivo `docker-compose.yml` inclui:
 
 ### 2. **Gerar QR Code**
 - Cole a URL desejada no campo
+- Escolha o formato dos módulos: **quadrados** ou **círculos**
 - Clique em "Gerar QR Code"
-- Aguarde 2-3 minutos para processamento
+- Aguarde 2-3 minutos para processamento (círculos levam mais tempo que quadrados)
+
+> Nos dois formatos os marcadores de posição (os três cantos e o alinhamento) continuam
+> quadrados, para não prejudicar a leitura do código. O número de faces dos furos redondos
+> é controlado pela constante `CIRCLE_FN` em `webserver/tlgCode/tlgCode.py` — valores altos
+> deixam o furo mais redondo, mas o render do OpenSCAD fica muito mais lento.
 
 ### 3. **Download**
 - Visualize o QR Code gerado
